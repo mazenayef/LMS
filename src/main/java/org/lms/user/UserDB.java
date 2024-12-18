@@ -10,7 +10,7 @@ public class UserDB {
         {
             add(new User(1, "John", "Doe", "1234", "john@gmail.com", Role.ADMIN));
             add(new User(2, "Jane", "Doe", "1234", "jahn@gmail.com", Role.STUDENT));
-            add(new User(2, "Jane", "Doe", "1234", "jahn@gmail.com", Role.STUDENT));
+            add(new User(3, "Hamada", "Doe", "1234", "Hamada@gmail.com", Role.STUDENT));
         }
     };
 }

@@ -37,7 +37,7 @@ public class UserController {
     };
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<User>  updateUserById(@PathVariable Integer id,@RequestBody UserDTO user){
+    public ResponseEntity<User>  updateUserById(@PathVariable Integer id, @RequestParam UserDTO user){
         try {
             return ResponseEntity.ok().body(userService.updateUserById(id, user));
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class UserController {
         userService.deleteUserById(id);
     };
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") Integer id){
         try {
             return ResponseEntity.ok().body(userService.findUserById(id));
@@ -59,8 +59,8 @@ public class UserController {
         }
     };
 
-    @GetMapping("/{email}")
-    public ResponseEntity<User> findUserByEmail(@PathVariable String email){
+    @GetMapping("/user/{email}")
+    public ResponseEntity<User> findUserByEmail(@PathVariable("email") String email){
         try {
             return ResponseEntity.ok().body(userService.findUserByEmail(email));
         } catch (Exception e) {
