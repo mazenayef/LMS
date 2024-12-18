@@ -12,9 +12,9 @@ public class UserDTO {
 
     @Email
     private String email;
-    private Enum role;
+    private Role role;
 
-    public UserDTO(String firstName, String lastName, String password, String email, Enum role) {
+    public UserDTO(String firstName, String lastName, String password, String email, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -53,11 +53,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Enum getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Enum role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

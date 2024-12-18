@@ -18,8 +18,8 @@ public class UserRepository {
         userCreated.setPassword(user.getPassword());
         userCreated.setRole(user.getRole());
         userCreated.setId(UserDB.Users.size() + 1);
-        if (UserDB.Users.stream().anyMatch(u -> u.getId().equals(userCreated.getId()))) {
-            throw new Exception("User already exists");
+        if (UserDB.Users.stream().anyMatch(u -> u.getEmail().equals(userCreated.getEmail()))) {
+            throw new Exception("Email already exists");
         }
         else {
             // Check if the user have all data

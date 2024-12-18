@@ -9,9 +9,6 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-@Getter
-@Setter
-@EntityScan
 public class User {
     enum Role {
         ADMIN, STUDENT, INSTRUCTOR

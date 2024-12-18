@@ -12,7 +12,7 @@ import org.lms.user.UserDB;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
     UserService userService;
 
@@ -26,7 +26,7 @@ public class UserController {
         return "Test";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<User> createUser(@RequestBody UserDTO user){
         try {
             return ResponseEntity.ok().body(userService.createUser(user));
@@ -36,8 +36,8 @@ public class UserController {
         }
     };
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<User>  updateUserById(@PathVariable Integer id, @RequestParam UserDTO user){
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user){
         try {
             return ResponseEntity.ok().body(userService.updateUserById(id, user));
         } catch (Exception e) {
@@ -45,25 +45,19 @@ public class UserController {
         }
     };
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteUserById(@PathVariable("id") Integer id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUserById(@PathVariable("id") Integer id){
         userService.deleteUserById(id);
+        return ResponseEntity.ok().build();
     };
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable("id") Integer id){
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable("id") String id){
+        Integer idUsed = Integer.parseInt(id);
         try {
-            return ResponseEntity.ok().body(userService.findUserById(id));
+            return ResponseEntity.ok().body(userService.findUserById(idUsed));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    };
-
-    @GetMapping("/user/{email}")
-    public ResponseEntity<User> findUserByEmail(@PathVariable("email") String email){
-        try {
-            return ResponseEntity.ok().body(userService.findUserByEmail(email));
-        } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     };
