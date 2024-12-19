@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 public class User {
-    enum Role {
+    public static enum Role {
         ADMIN, STUDENT, INSTRUCTOR
     }
 
@@ -19,12 +19,12 @@ public class User {
     private String lastName;
     private String password;
     private String email;
-    private Enum role;
+    private Role role;
 
     public User() {
     }
 
-    public User(Integer id, String firstName, String lastName, String password, String email, Enum role) {
+    public User(Integer id, String firstName, String lastName, String password, String email, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -73,11 +73,11 @@ public class User {
         this.email = email;
     }
 
-    public Enum getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Enum role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

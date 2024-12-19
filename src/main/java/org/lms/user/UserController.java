@@ -26,16 +26,6 @@ public class UserController {
         return "Test";
     }
 
-    @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user){
-        try {
-            return ResponseEntity.ok().body(userService.createUser(user));
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    };
-
     @PatchMapping("/{id}")
     public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user){
         try {
