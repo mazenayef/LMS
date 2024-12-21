@@ -4,6 +4,8 @@ package org.lms.announcement.controllers;
 import org.lms.announcement.dtos.AnnouncementDTO;
 import org.lms.announcement.models.Annoucement;
 import org.lms.announcement.services.AnnouncementService;
+import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,10 @@ public class AnnouncementController {
     @PostMapping("/")
     // only instructor can add announcement
     // announcement without attachment
-    public ResponseEntity<Annoucement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId) {
+    public ResponseEntity<Annoucement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) {
+        if (!user.getRole().equals(User.Role.INSTRUCTOR)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
         } catch (Exception e) {
@@ -51,7 +56,10 @@ public class AnnouncementController {
     }
     @PutMapping("/{id}")
     // update announcement
-    public ResponseEntity<Annoucement> updateAnnouncement(@PathVariable("id") Integer id,@RequestBody AnnouncementDTO announcementDTO) throws Exception {
+    public ResponseEntity<Annoucement> updateAnnouncement(@PathVariable("id") Integer id,@RequestBody AnnouncementDTO announcementDTO , @CurrentUser User user) throws Exception {
+        if (!user.getRole().equals(User.Role.INSTRUCTOR)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         try {
             return ResponseEntity.ok().body(announcementService.updateAnnouncement(id, announcementDTO));
         } catch (Exception e) {
