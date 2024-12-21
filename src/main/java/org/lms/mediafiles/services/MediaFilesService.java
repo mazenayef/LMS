@@ -21,7 +21,12 @@ public class MediaFilesService {
 		return mediaFile;
 	}
 
-	public MediaFileResourceDto getMedia(Integer id) throws Exception {
+	public MediaFile getMedia(Integer id) throws Exception {
+		MediaFileResourceDto mediaFileResourceDto = this.mediaFilesRepository.findOne(id);
+		return new MediaFile(mediaFileResourceDto.getId(), mediaFileResourceDto.getTitle(), mediaFileResourceDto.getType(), mediaFileResourceDto.getPath());
+	}
+
+	public MediaFileResourceDto getMediaResource(Integer id) throws Exception {
 		return this.mediaFilesRepository.findOne(id);
 	}
 }
