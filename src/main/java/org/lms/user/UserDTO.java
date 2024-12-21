@@ -3,17 +3,14 @@ package org.lms.user;
 import jakarta.validation.constraints.Email;
 
 public class UserDTO {
-    enum Role {
-        ADMIN, STUDENT, INSTRUCTOR
-    }
     private String firstName;
     private String lastName;
     private String password;
     @Email
     private String email;
-    private Role role;
+    private User.Role role;
 
-    public UserDTO(String firstName, String lastName, String password, String email, Role role) {
+    public UserDTO(String firstName, String lastName, String password, String email, User.Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -52,11 +49,11 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Role getRole() {
+    public User.Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(User.Role role) {
         this.role = role;
     }
 

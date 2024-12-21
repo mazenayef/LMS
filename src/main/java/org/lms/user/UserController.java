@@ -1,7 +1,9 @@
 package org.lms.user;
 
+import org.lms.authentication.interceptors.CurrentUser;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +14,7 @@ import org.lms.user.UserDB;
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     UserService userService;
 
@@ -26,34 +28,35 @@ public class UserController {
         return "Test";
     }
 
-    @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user){
-        try {
-            return ResponseEntity.ok().body(userService.createUser(user));
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    };
-
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user){
-        try {
-            return ResponseEntity.ok().body(userService.updateUserById(id, user));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser){
+        if (currentUser.getRole() != User.Role.ADMIN) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        else {
+            try {
+                return ResponseEntity.ok().body(userService.updateUserById(id, user));
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().build();
+            }
         }
     };
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserById(@PathVariable("id") Integer id){
+    public ResponseEntity deleteUserById(@PathVariable("id") Integer id, @CurrentUser User currentUser){
+        if (currentUser.getRole() != User.Role.ADMIN) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
     };
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable("id") String id){
+    public ResponseEntity<User> findUserById(@PathVariable("id") String id, @CurrentUser User currentUser) {
         Integer idUsed = Integer.parseInt(id);
+        if (currentUser.getRole() != User.Role.ADMIN && currentUser.getRole() != User.Role.INSTRUCTOR) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         try {
             return ResponseEntity.ok().body(userService.findUserById(idUsed));
         } catch (Exception e) {
@@ -63,7 +66,10 @@ public class UserController {
     };
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> findAllUsers() {
+    public ResponseEntity<List<User>> findAllUsers(@CurrentUser User currentUser) {
+        if (currentUser.getRole() != User.Role.ADMIN) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         return ResponseEntity.ok().body(userService.findAll());
     }
 }

@@ -1,4 +1,4 @@
-package org.lms.authentication;
+package org.lms.authentication.configurations;
 
 
 import org.springframework.context.annotation.Bean;
