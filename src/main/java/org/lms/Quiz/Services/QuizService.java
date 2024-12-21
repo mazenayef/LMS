@@ -236,6 +236,10 @@ public class QuizService {
                 countQuizzes++;
             }
         }
+        
+        if(countQuizzes == 0 || correctAnswers == -1)
+            return new ResponseAPI(200,"student didnt take any quizzes yet", null);
+
         return new ResponseAPI(
             200,
             "Student " + id + " took " + countQuizzes + " and answered " + correctAnswers + " from " + countQuestions,
