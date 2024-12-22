@@ -46,7 +46,7 @@ public class QuizService {
             id = Math.max(id, q.getId());
 
         Quiz object = quizSet.toObject();
-        object.setId(id);
+        object.setId(id + 1);
         return new ResponseObject("normalized", _repo.create(object));
     }
 
