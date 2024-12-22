@@ -1,26 +1,31 @@
-package org.lms.lesson;
+package org.lms.lesson.models;
 
 import org.lms.user.User;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Lesson {
     private Integer id;
     private String name;
-    private Integer date;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String OTP;
+    private LocalDateTime OTPTime;
     private List<User> students;
     private Integer courseId;
 
     public Lesson() {
     }
 
-    public Lesson(Integer id, String name, Integer date, String OTP, List<User> students, Integer courseId) {
+    public Lesson(Integer id, String name, LocalDateTime startDate ,LocalDateTime endDate, Integer courseId) {
         this.id = id;
         this.name = name;
-        this.date = date;
-        this.OTP = OTP;
-        this.students = students;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.OTP = null;
+        this.students = new ArrayList<>();
         this.courseId = courseId;
     }
 
@@ -40,12 +45,20 @@ public class Lesson {
         this.name = name;
     }
 
-    public Integer getDate() {
-        return date;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Integer date) {
-        this.date = date;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public String getOTP() {
@@ -72,12 +85,20 @@ public class Lesson {
         this.courseId = courseId;
     }
 
+    public LocalDateTime getOTPTime() {
+        return OTPTime;
+    }
+
+    public void setOTPTime(LocalDateTime OTPTime) {
+        this.OTPTime = OTPTime;
+    }
+
     @Override
     public String toString() {
         return "Lesson{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", date=" + date +
+                ", date=" + startDate.toString()+
                 ", OTP='" + OTP + '\'' +
                 ", students=" + students +
                 ", courseId=" + courseId +
