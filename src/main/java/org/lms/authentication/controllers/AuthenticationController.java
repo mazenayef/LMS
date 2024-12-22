@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.lms.authentication.dtos.LoginDto;
 import org.lms.authentication.dtos.TokenDto;
 import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.authentication.services.AuthenticationService;
 import org.lms.user.User;
 import org.lms.user.UserDTO;
@@ -61,6 +62,7 @@ public class AuthenticationController {
 		try {
 			return ResponseEntity.ok().body(currentUser);
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return ResponseEntity.internalServerError().build();
 		}
 	}
