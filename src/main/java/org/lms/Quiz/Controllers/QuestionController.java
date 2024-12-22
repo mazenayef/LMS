@@ -1,8 +1,8 @@
 package org.lms.Quiz.Controllers;
 
 import java.util.Map;
-
-import org.lms.Models.ResponseAPI;
+import java.util.concurrent.ExecutionException;
+import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.QuestionsDTOs.QuestionSet;
 import org.lms.Quiz.Services.QuestionService;
 import org.springframework.http.MediaType;
@@ -26,40 +26,32 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/create", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseAPI> createQuestion(@RequestBody QuestionSet question) throws Exception{
-        ResponseAPI result = _service.createQuestion(question);
-        if(result.statusCode != 200)
+    public ResponseEntity<ResponseObject> createQuestion(@RequestBody QuestionSet question) throws Exception{
+        ResponseObject result = _service.createQuestion(question);
+        if(result.data != null)
             return ResponseEntity.ok(result);
         return ResponseEntity.badRequest().body(result);
     }
 
     @GetMapping(value = "/", produces = "application/json")
-    public ResponseAPI getAll(){
-        return _service.getAll();
+    public ResponseEntity<ResponseObject> getAll(){
+        return ResponseEntity.ok(_service.getAll());
     }
 
     @GetMapping(value = "/filter", produces = "application/json")
-    public ResponseAPI filter(@RequestBody Map<String, Object> criteria){
-        ResponseAPI result;
-        try{
-            result = _service.filter(criteria).get();
-        }
-        catch(Exception e){
-            return new ResponseAPI(500,"internal server error", null);
-        }
-        return result;
+    public ResponseEntity<ResponseObject> filter(@RequestBody Map<String, Object> criteria) throws InterruptedException, ExecutionException{
+        ResponseObject result;
+        result = _service.filter(criteria).get();
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping(value = "/update/{id}", produces = "application/json")
-    public ResponseAPI update(@PathVariable int id, @RequestBody QuestionSet questionSet){
-        ResponseAPI result;
-        try{
-            result = _service.updateQuestion(id, questionSet).get();
-        }
-        catch(Exception e){
-            return new ResponseAPI(500,"internal server error", null);
-        }
-        return result;
+    public ResponseEntity<ResponseObject> update(@PathVariable int id, @RequestBody QuestionSet questionSet) throws InterruptedException, ExecutionException{
+        ResponseObject result;
+        result = _service.updateQuestion(id, questionSet).get();
+        if(result.data != null)
+            return ResponseEntity.ok(result);
+        return ResponseEntity.badRequest().body(result);
     } 
 
     @DeleteMapping(value = "/delete/{id}")

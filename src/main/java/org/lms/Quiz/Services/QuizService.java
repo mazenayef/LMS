@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
-import org.lms.Models.ResponseAPI;
+import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.Pair;
 import org.lms.Quiz.DTOs.QuizDTOs.QuizSet;
 import org.lms.Quiz.Models.Difficulty;
@@ -33,12 +33,12 @@ public class QuizService {
         _attemptsRepo = attemptsRepo;
     }
 
-    public ResponseAPI create(QuizSet quizSet){
+    public ResponseObject create(QuizSet quizSet){
         if(quizSet.startTime.isAfter(quizSet.startTime))
-            return new ResponseAPI(400, "wrong time interval", null);
+            return new ResponseObject("wrong time interval", null);
         
         if(quizSet.difficulties.length < 2)
-            return new ResponseAPI(400, "quiz length is invalid", null);
+            return new ResponseObject("quiz length is invalid", null);
 
         
         int id = 0;
@@ -47,25 +47,25 @@ public class QuizService {
 
         Quiz object = quizSet.toObject();
         object.setId(id);
-        return new ResponseAPI(200,"normalized", _repo.create(object));
+        return new ResponseObject("normalized", _repo.create(object));
     }
 
-    public Future<ResponseAPI> getAll(){
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
-            return new ResponseAPI(200,"normalized",_repo.getAll());
+    public Future<ResponseObject> getAll(){
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
+            return new ResponseObject("normalized",_repo.getAll());
         });
         return future;
     }
 
-    public Future<ResponseAPI> filter(Map<String, Object> criteria){
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
-            return new ResponseAPI(200,"normalized",_repo.filter(criteria));
+    public Future<ResponseObject> filter(Map<String, Object> criteria){
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
+            return new ResponseObject("normalized",_repo.filter(criteria));
         });
         return future;
     }
 
-    public Future<ResponseAPI> update(int id, QuizSet quizSet){
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
+    public Future<ResponseObject> update(int id, QuizSet quizSet){
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
 
             Quiz quiz = QuizRepository.quizzes.stream()
             .filter(obj -> obj.getId() == id)
@@ -73,15 +73,15 @@ public class QuizService {
             .orElse(null);
 
             if(quiz == null)
-                return new ResponseAPI(404,"could not find quiz",null);
+                return new ResponseObject("could not find quiz",null);
 
             if(quizSet.startTime.isAfter(quizSet.startTime))
-                return new ResponseAPI(400, "wrong time interval", null);
+                return new ResponseObject("wrong time interval", null);
           
             if(quizSet.difficulties.length < 2)
-                return new ResponseAPI(400, "quiz length is invalid", null);
+                return new ResponseObject("quiz length is invalid", null);
 
-            return new ResponseAPI(200,"normalized",_repo.update(quiz, quizSet));
+            return new ResponseObject("normalized",_repo.update(quiz, quizSet));
         });
         return future;
     }
@@ -96,8 +96,8 @@ public class QuizService {
             _repo.delete(quiz);
     }
 
-    public Future<ResponseAPI> getModelOfQuiz(int userId,int quizId){
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
+    public Future<ResponseObject> getModelOfQuiz(int userId,int quizId) {
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
 
             ArrayList<Question> easyQuestions = new ArrayList<>();
             ArrayList<Question> mediumQuestions = new ArrayList<>();
@@ -111,13 +111,13 @@ public class QuizService {
             .orElse(null);
 
             if(quiz == null)
-                return new ResponseAPI(404, "could not find quiz", null);
+                return new ResponseObject("could not find quiz", null);
             
             if(quiz.getStartTime().isAfter(LocalDateTime.now()))
-                return new ResponseAPI(400, "quiz did not start yet",null);
+                return new ResponseObject("quiz did not start yet",null);
             
             if(quiz.getStartTime().plusMinutes(quiz.getDuration()).isBefore(LocalDateTime.now()))
-            return new ResponseAPI(400, "quiz is over",null);
+            return new ResponseObject("quiz is over",null);
 
             criteria.put("courseId",quiz.getCourseId());
 
@@ -139,7 +139,7 @@ public class QuizService {
             List<Pair<Integer,Integer>> questions = new ArrayList<>();
 
             if(easyQuestions.size() < countEasyQuestions || mediumQuestions.size() < countMediumQuestions || hardQuestions.size() < countHardQuestions )
-                return new ResponseAPI(400, "not enough questions to create quiz",null);
+                return new ResponseObject("not enough questions to create quiz",null);
             
             ArrayList<Question> result = new ArrayList<>();
             Random random = new Random();
@@ -170,14 +170,14 @@ public class QuizService {
             QuizAttempt attempt = new QuizAttempt(attemptId,userId, quiz.getId(),-1, questions, LocalDateTime.now(), false);
             _attemptsRepo.create(attempt);
 
-            return new ResponseAPI(200, "quiz created", attempt);
+            return new ResponseObject("quiz created", attempt);
         });
         return future;
     }
 
-    public Future<ResponseAPI> submitQuizAttempt(QuizAttempt quizAttempt){
+    public Future<ResponseObject> submitQuizAttempt(QuizAttempt quizAttempt){
 
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
             Quiz quiz = _repo.getAll()
             .stream()
             .filter(q -> q.getId() == quizAttempt.getQuizId())
@@ -185,13 +185,13 @@ public class QuizService {
             .orElse(null);
     
             if(quiz == null)
-                return new ResponseAPI(400, "could not find the quiz", null);
+                return new ResponseObject("could not find the quiz", null);
     
             if(quizAttempt.getCreatedAt().plusMinutes(quiz.getDuration()).isBefore(LocalDateTime.now()))
-                return new ResponseAPI(403, "deadline is due", null);
+                return new ResponseObject("deadline is due", null);
     
             if(quizAttempt.getSubmitted())
-                return new ResponseAPI(403, "already submitted", null);
+                return new ResponseObject("already submitted", null);
     
             ArrayList<Question> questions = QuestionRepository.questions;
     
@@ -214,17 +214,17 @@ public class QuizService {
             }
     
             if(unAnsweredAttempt == null)
-                return new ResponseAPI(404,"could not find the attempt", null);
+                return new ResponseObject("could not find the attempt", null);
 
             _attemptsRepo.delete(unAnsweredAttempt);
             _attemptsRepo.create(quizAttempt);
     
-            return new ResponseAPI(200,"normailized", quizAttempt);
+            return new ResponseObject("normailized", quizAttempt);
         });
         return future;
     }
 
-    public ResponseAPI getStudentGrade(int id){
+    public ResponseObject getStudentGrade(int id){
         int countQuizzes = 0;
         int countQuestions = 0;
         int correctAnswers = 0;
@@ -236,12 +236,11 @@ public class QuizService {
                 countQuizzes++;
             }
         }
-        
-        if(countQuizzes == 0 || correctAnswers == -1)
-            return new ResponseAPI(200,"student didnt take any quizzes yet", null);
 
-        return new ResponseAPI(
-            200,
+        if(countQuizzes == 0 || correctAnswers == -1)
+            return new ResponseObject("student didnt take any quizzes yet", null);
+
+        return new ResponseObject(
             "Student " + id + " took " + countQuizzes + " and answered " + correctAnswers + " from " + countQuestions,
             (correctAnswers / countQuestions * 100));
     }

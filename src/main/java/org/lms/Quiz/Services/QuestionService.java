@@ -3,7 +3,7 @@ package org.lms.Quiz.Services;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import org.lms.Models.ResponseAPI;
+import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.QuestionsDTOs.QuestionSet;
 import org.lms.Quiz.Models.Question;
 import org.lms.Quiz.Repos.QuestionRepo.QuestionRepository;
@@ -17,9 +17,9 @@ public class QuestionService {
         this._questionRepo = questionRepo;
     }
 
-    public ResponseAPI createQuestion(QuestionSet questionSet){
+    public ResponseObject createQuestion(QuestionSet questionSet){
         if(questionSet.choices.length < 2 || questionSet.correctChoice > questionSet.choices.length)
-            return new ResponseAPI(400, "invalid choices", null);
+            return new ResponseObject("invalid choices", null);
 
         Question question =  new Question(questionSet.correctChoice, questionSet.courseId, questionSet.body, questionSet.choices, questionSet.difficulty);
         Integer id = 0;
@@ -29,28 +29,28 @@ public class QuestionService {
             question.setId(id + 1);
 
         Question result = _questionRepo.create(question);
-        return new ResponseAPI(200, "normalized", result);
+        return new ResponseObject("normalized", result);
     }
 
-    public ResponseAPI getAll(){
-        return new ResponseAPI(200,"normalized", _questionRepo.getAll());
+    public ResponseObject getAll(){
+        return new ResponseObject("normalized", _questionRepo.getAll());
     }
 
-    public Future<ResponseAPI> filter(Map<String, Object> criteria){
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
-            return new ResponseAPI(200,"normalized",_questionRepo.filter(criteria));
+    public Future<ResponseObject> filter(Map<String, Object> criteria){
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
+            return new ResponseObject("normalized",_questionRepo.filter(criteria));
         });
         return future;
     }
 
-    public Future<ResponseAPI> updateQuestion(int id, QuestionSet questionSet){
-        CompletableFuture<ResponseAPI> future = CompletableFuture.supplyAsync(() -> {
+    public Future<ResponseObject> updateQuestion(int id, QuestionSet questionSet){
+        CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
             for (Question q : QuestionRepository.questions) {
                 if(q.getId() == id){
-                    return new ResponseAPI(200,"updated",_questionRepo.update(q, questionSet));
+                    return new ResponseObject("updated",_questionRepo.update(q, questionSet));
                 }
             }
-           return new ResponseAPI(404, "could not find the question", null);
+           return new ResponseObject("could not find the question", null);
         });
         return future;
     }
