@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import javax.management.AttributeList;
+
+import org.lms.assignment.dtos.AssignmentSubmissionDto;
 import org.lms.assignment.models.Assignment;
 import org.hibernate.jdbc.Expectation;
 import org.lms.assignment.models.AssignmentSubmission;
@@ -22,7 +24,7 @@ public class AssignmentSubmissionRepository {
     public AssignmentSubmission findAssignmentSubmission(Integer id) throws Exception{
         AssignmentSubmission assignmentSubmission=null;
         for (AssignmentSubmission it : assignmentSubmissionDB) {
-            if (it.getId()==id) {
+            if (it.getStudent().getId()==id) {
                 assignmentSubmission=it;
                 break;
             }
@@ -59,7 +61,7 @@ public class AssignmentSubmissionRepository {
         AssignmentSubmission assignmentSubmission= new AssignmentSubmission(createdAT, media, student,assignmentID);
         assignmentSubmissionDB.add(assignmentSubmission);
     }
-    public AssignmentSubmission updateAssignmentSubmission(AssignmentSubmission existAssignmentSubmission,AssignmentSubmission updatedAssignmentSubmission){
+    public AssignmentSubmission updateAssignmentSubmission(AssignmentSubmission existAssignmentSubmission,AssignmentSubmissionDto updatedAssignmentSubmission){
         existAssignmentSubmission.setCreatedAt(updatedAssignmentSubmission.getCreatedAt());
         existAssignmentSubmission.setMedia(updatedAssignmentSubmission.getMedia());
         existAssignmentSubmission.setCorrected(updatedAssignmentSubmission.isCorrected());

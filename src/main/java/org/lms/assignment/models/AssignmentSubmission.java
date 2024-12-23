@@ -32,6 +32,7 @@ public class AssignmentSubmission {
         this.assignmentID=assignmentID;
         id=count+1;
         corrected=false;
+        count++;
     }
     public AssignmentSubmission(String createdAt, MediaFileResourceDto media ,User student,Integer assignmentID,double grade,boolean corrected){
         this.createdAt=createdAt;
@@ -41,5 +42,6 @@ public class AssignmentSubmission {
         id=count+1;
         this.corrected=corrected;
         this.grade=grade;
+        count++;
     }
 }

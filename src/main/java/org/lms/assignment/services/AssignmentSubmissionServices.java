@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AssignmentSubmissionServices  {
     private AssignmentSubmissionRepository assignmentSubmissionRepository;
+    // private NotificationService notificationService;
 
     public AssignmentSubmissionServices(AssignmentSubmissionRepository assignmentSubmissionRepository){
         this.assignmentSubmissionRepository=assignmentSubmissionRepository;
+        
     }
     
     public void createSubmission(AssignmentSubmissionDto assignmentSubmissionDto,User student,Integer assignmentID) throws Exception {
@@ -43,21 +45,21 @@ public class AssignmentSubmissionServices  {
     public AssignmentSubmissionDto updateAssignmentSubmission(Integer id,AssignmentSubmissionDto updatedAssignmentSubmission,User student)throws Exception {
         AssignmentSubmission oldAssignmentSubmission=assignmentSubmissionRepository.findAssignmentSubmission(id);
         if (oldAssignmentSubmission!=null) {
-            AssignmentSubmission newAssignmentSubmission= new AssignmentSubmission(updatedAssignmentSubmission.getCreatedAt(), updatedAssignmentSubmission.getMedia(), student, id);
-            assignmentSubmissionRepository.updateAssignmentSubmission(oldAssignmentSubmission, newAssignmentSubmission);
-            return convetToDto(newAssignmentSubmission);
+            assignmentSubmissionRepository.updateAssignmentSubmission(oldAssignmentSubmission, updatedAssignmentSubmission);
+            updatedAssignmentSubmission.setId(id);
+            return updatedAssignmentSubmission;
         }
         else
             throw new Exception("invalid data");
         
     }
 
-    public AssignmentSubmissionDto correctAssignmentSubmission(Integer id,AssignmentSubmissionDto updatedAssignmentSubmission,User student)throws Exception {
+    public AssignmentSubmissionDto markAssignmentSubmission(Integer id,AssignmentSubmissionDto updatedAssignmentSubmission,User student)throws Exception {
         AssignmentSubmission oldAssignmentSubmission=assignmentSubmissionRepository.findAssignmentSubmission(id);
         if (oldAssignmentSubmission!=null) {
-            AssignmentSubmission newAssignmentSubmission= new AssignmentSubmission(updatedAssignmentSubmission.getCreatedAt(), updatedAssignmentSubmission.getMedia(), student, id,updatedAssignmentSubmission.getGrade(),updatedAssignmentSubmission.isCorrected());
-            assignmentSubmissionRepository.updateAssignmentSubmission(oldAssignmentSubmission, newAssignmentSubmission);
-            return convetToDto(newAssignmentSubmission);
+            assignmentSubmissionRepository.updateAssignmentSubmission(oldAssignmentSubmission, updatedAssignmentSubmission);
+            updatedAssignmentSubmission.setId(id);
+            return updatedAssignmentSubmission;
         }
         else
             throw new Exception("invalid data");
@@ -69,14 +71,14 @@ public class AssignmentSubmissionServices  {
 
     
     public AssignmentSubmissionDto convetToDto(AssignmentSubmission assignmentSubmission){
-        AssignmentSubmissionDto assignmentSubmissionDto= new AssignmentSubmissionDto(assignmentSubmission.getCreatedAt(), assignmentSubmission.getMedia(), assignmentSubmission.getGrade(), assignmentSubmission.isCorrected());
+        AssignmentSubmissionDto assignmentSubmissionDto= new AssignmentSubmissionDto(assignmentSubmission.getId(),assignmentSubmission.getCreatedAt(), assignmentSubmission.getMedia(), assignmentSubmission.getGrade(), assignmentSubmission.isCorrected());
         return assignmentSubmissionDto;
     }
 
     public List<AssignmentSubmissionDto> convetToDtoList(List<AssignmentSubmission> assignmentSubmissions){
         List<AssignmentSubmissionDto>assignmentSubmissionDtos=new ArrayList<>();
         for (AssignmentSubmission assignmentSubmission: assignmentSubmissions) {
-            AssignmentSubmissionDto assignmentSubmissionDto= new AssignmentSubmissionDto(assignmentSubmission.getCreatedAt(), assignmentSubmission.getMedia(), assignmentSubmission.getGrade(), assignmentSubmission.isCorrected());
+            AssignmentSubmissionDto assignmentSubmissionDto= new AssignmentSubmissionDto(assignmentSubmission.getId(),assignmentSubmission.getCreatedAt(), assignmentSubmission.getMedia(), assignmentSubmission.getGrade(), assignmentSubmission.isCorrected());
             assignmentSubmissionDtos.add(assignmentSubmissionDto);
         }
         return assignmentSubmissionDtos;

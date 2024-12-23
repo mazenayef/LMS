@@ -83,14 +83,16 @@ public ResponseEntity<AssignmentSubmissionDto> postAssignmetSubmission(@RequestB
 }
 
 @HasRole({"INSTRUCTOR"})
-@PutMapping("/{id}/correct")
+@PutMapping("/{id}/marked")
 public ResponseEntity<AssignmentSubmissionDto> correctAssignmentSubmission(@PathVariable("id") String id,@RequestBody AssignmentSubmissionDto newAssignmentSubmission,@CurrentUser User currentUser) {
     try {
-        AssignmentSubmissionDto assignmentSubmissiondDto= assignmentSubmissionServices.correctAssignmentSubmission(Integer.parseInt(id), newAssignmentSubmission,currentUser);
+        AssignmentSubmissionDto assignmentSubmissiondDto= assignmentSubmissionServices.markAssignmentSubmission(Integer.parseInt(id), newAssignmentSubmission,currentUser);
         if(assignmentSubmissiondDto.isCorrected()==true){
             // send Notification
+            return ResponseEntity.ok(assignmentSubmissiondDto);
         }
-        return ResponseEntity.ok(assignmentSubmissiondDto);
+        else
+            return ResponseEntity.badRequest().build();
     } catch (Exception e) {
         return ResponseEntity.badRequest().build();
         }
@@ -100,8 +102,12 @@ public ResponseEntity<AssignmentSubmissionDto> correctAssignmentSubmission(@Path
 @PutMapping("/{id}")
 public ResponseEntity<AssignmentSubmissionDto> putMethodName(@PathVariable Integer id, @RequestBody AssignmentSubmissionDto newAssignmentSubmission,@CurrentUser User currentUser) {
     try {
+        if(newAssignmentSubmission.getGrade()==0 && !newAssignmentSubmission.isCorrected()){
         AssignmentSubmissionDto assignmentSubmissionDto=assignmentSubmissionServices.updateAssignmentSubmission(id, newAssignmentSubmission,currentUser);
         return ResponseEntity.ok(assignmentSubmissionDto);
+        }
+        else
+            return ResponseEntity.badRequest().build();
     } catch (Exception e) {
         return ResponseEntity.badRequest().build();
     }

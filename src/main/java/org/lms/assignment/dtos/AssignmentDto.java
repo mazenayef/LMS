@@ -8,12 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AssignmentDto {
+    private Integer id;
     private String title;
     private String description;
     private String dueDate;
     private MediaFileResourceDto media;
-    private List <AssignmentSubmission> assignmentSubmation=new ArrayList<>();
-    public AssignmentDto (String title , String description ,String dueDate,MediaFileResourceDto media){
+    private List <AssignmentSubmission> assignmentSubmissition=new ArrayList<>();
+    public AssignmentDto (Integer id,String title , String description ,String dueDate,MediaFileResourceDto media){
+        this.id=id;
         this.title=title;
         this.description=description;
         this.dueDate=dueDate;

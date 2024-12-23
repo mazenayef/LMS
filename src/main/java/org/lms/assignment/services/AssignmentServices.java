@@ -38,9 +38,9 @@ public class AssignmentServices  {
     public AssignmentDto updateAssignment(AssignmentDto assignmentDto,Integer id, Integer courseID) throws Exception {
         Assignment oldAssignment=assignmentRepository.findByID(id);
         if(oldAssignment!=null){
-            Assignment newAssignment= new Assignment(assignmentDto.getTitle(),assignmentDto.getDescription(), assignmentDto.getDueDate(),assignmentDto.getMedia(), courseID);
-            newAssignment= assignmentRepository.updateExistingAssignment(oldAssignment, newAssignment);
-            return convetToDto(newAssignment);
+            assignmentRepository.updateExistingAssignment(oldAssignment, assignmentDto);
+            assignmentDto.setId(id);
+            return assignmentDto;
         }else 
             throw new Exception("invalid data");
     }
@@ -50,14 +50,14 @@ public class AssignmentServices  {
     }
 
     public AssignmentDto convetToDto(Assignment assignment) {
-        AssignmentDto assignmentDto= new AssignmentDto(assignment.getTitle(),assignment.getDescription(),assignment.getDueDate(),assignment.getMedia());
+        AssignmentDto assignmentDto= new AssignmentDto(assignment.getId(),assignment.getTitle(),assignment.getDescription(),assignment.getDueDate(),assignment.getMedia());
         return assignmentDto;
     }
 
     public List<AssignmentDto>convetToDtoList(List<Assignment> assignments) {
         List<AssignmentDto> assignmentDtos= new ArrayList<>();
         for (Assignment assignment : assignments) {
-            AssignmentDto assignmentdDto= new AssignmentDto(assignment.getTitle(),assignment.getDescription(),assignment.getDueDate(),assignment.getMedia());
+            AssignmentDto assignmentdDto= new AssignmentDto(assignment.getId(),assignment.getTitle(),assignment.getDescription(),assignment.getDueDate(),assignment.getMedia());
             assignmentDtos.add(assignmentdDto);
         }
         return assignmentDtos;

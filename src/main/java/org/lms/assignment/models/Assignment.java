@@ -30,6 +30,7 @@ public class Assignment {
         this.dueDate=dueDate;
         this.media=media;
         this.id=count+1;
+        count++;
     }
     public Assignment (String title , String description ,String dueDate,Integer courseID){
         this.title=title;
@@ -37,5 +38,6 @@ public class Assignment {
         this.courseID=courseID;
         this.dueDate=dueDate;
         this.id=count+1;
+        count++;
     }
 }

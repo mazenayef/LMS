@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lms.assignment.dtos.AssignmentDto;
 import org.lms.assignment.models.Assignment;
 import org.lms.mediafiles.dtos.MediaFileResourceDto;
 import org.lms.mediafiles.models.MediaFile;
@@ -66,8 +67,7 @@ public class AssignmentRepository {
         }
         throw new Exception("this course does not have assignment yet");
     }
-    public Assignment updateExistingAssignment(Assignment existAssignment,Assignment updatedAssignment){
-        existAssignment.setCourseID(updatedAssignment.getCourseID());
+    public Assignment updateExistingAssignment(Assignment existAssignment,AssignmentDto updatedAssignment){
         existAssignment.setDescription(updatedAssignment.getDescription());
         existAssignment.setDueDate(updatedAssignment.getDueDate());
         existAssignment.setMedia(updatedAssignment.getMedia());
