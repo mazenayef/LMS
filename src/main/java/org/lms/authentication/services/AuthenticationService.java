@@ -2,6 +2,8 @@ package org.lms.authentication.services;
 
 import org.lms.authentication.dtos.LoginDto;
 import org.lms.authentication.dtos.TokenDto;
+import org.lms.shared.exceptions.HttpBadRequestException;
+import org.lms.shared.exceptions.HttpNotFoundException;
 import org.lms.user.User;
 import org.lms.user.UserDTO;
 import org.lms.user.UserService;
@@ -20,11 +22,11 @@ public class AuthenticationService {
 		User user = this.userService.findUserByEmail(loginDto.getEmail());
 
 		if (user == null) {
-			throw new Exception("User not found!");
+			throw new HttpNotFoundException("User not found!");
 		}
 
 		if (!user.getPassword().equals(loginDto.getPassword())) {
-			throw new Exception("Invalid Password");
+			throw new HttpBadRequestException("Invalid Password");
 		}
 
 		String token = this.jwtService.generateToken(user.getId(), user.getRole());

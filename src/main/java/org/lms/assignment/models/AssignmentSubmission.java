@@ -12,9 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
 public class AssignmentSubmission {
     static private Integer count=0;
     private Integer id;
@@ -41,5 +38,69 @@ public class AssignmentSubmission {
         id=count+1;
         this.corrected=corrected;
         this.grade=grade;
+    }
+
+    public static Integer getCount() {
+        return count;
+    }
+
+    public static void setCount(Integer count) {
+        AssignmentSubmission.count = count;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public MediaFileResourceDto getMedia() {
+        return media;
+    }
+
+    public void setMedia(MediaFileResourceDto media) {
+        this.media = media;
+    }
+
+    public User getStudent() {
+        return student;
+    }
+
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
+    public Integer getAssignmentID() {
+        return assignmentID;
+    }
+
+    public void setAssignmentID(Integer assignmentID) {
+        this.assignmentID = assignmentID;
+    }
+
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public boolean isCorrected() {
+        return corrected;
+    }
+
+    public void setCorrected(boolean corrected) {
+        this.corrected = corrected;
     }
 }
