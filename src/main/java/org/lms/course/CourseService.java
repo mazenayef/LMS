@@ -32,12 +32,24 @@ public class CourseService {
         courseRepository.deleteCourse(id);
     }
 
-    public String joinCourse(Integer courseId, Integer studentId) throws Exception {
-        return courseRepository.joinCourse(courseId, studentId);
+    public String joinStudentCourse(Integer courseId, Integer studentId) throws Exception {
+        return courseRepository.joinStudentCourse(courseId, studentId);
     }
 
-    public String leaveCourse(Integer courseId, Integer studentId) throws Exception {
-        return courseRepository.leaveCourse(courseId, studentId);
+    public String leaveStudentCourse(Integer courseId, Integer studentId) throws Exception {
+        return courseRepository.leaveStudentCourse(courseId, studentId);
+    }
+
+    public String joinInstructorCourse(Integer courseId, Integer instructorId) throws Exception {
+        return courseRepository.joinInstructorCourse(courseId, instructorId);
+    }
+
+    public String leaveInstructorCourse(Integer courseId, Integer instructorId) throws Exception {
+        return courseRepository.leaveInstructorCourse(courseId, instructorId);
+    }
+
+    public List<Integer> getInstructorList(Integer courseId) throws Exception {
+        return courseRepository.getInstructorList(courseId);
     }
 
     public List<Integer> getStudents(Integer courseId) throws Exception {

@@ -3,6 +3,7 @@ package org.lms.course;
 import jdk.jfr.ContentType;
 import org.apache.coyote.Request;
 import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,46 +36,27 @@ public class CourseController {
     // Get course by id
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable("id") Integer id) throws Exception {
-        try {
-            return ResponseEntity.ok().body(courseService.getCourseById(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body(courseService.getCourseById(id));
     }
 
     // Add course
-    @PostMapping("/create")
+    @PostMapping("/")
+    @HasRole({"ADMIN"})
     public ResponseEntity<Course> addCourse(@RequestBody CourseDTO course, @CurrentUser User currentUser) throws Exception {
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        try {
-            return ResponseEntity.ok().body(courseService.addCourse(course));
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(course));
     }
 
     // Update course
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
+    @HasRole({"ADMIN"})
     public ResponseEntity<Course> updateCourse(@PathVariable("id") Integer id,@RequestBody CourseDTO course, @CurrentUser User currentUser) throws Exception {
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        try {
-            return ResponseEntity.ok().body(courseService.updateCourse(id, course));
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body(courseService.updateCourse(id, course));
     }
 
     // Delete course
     @DeleteMapping("/{id}")
+    @HasRole({"ADMIN"})
     public ResponseEntity deleteCourse(@PathVariable("id") Integer id, @CurrentUser User currentUser) {
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
         courseService.deleteCourse(id);
         return ResponseEntity.ok().build();
     }
