@@ -6,16 +6,19 @@ import org.lms.announcement.models.Annoucement;
 import org.lms.announcement.services.AnnouncementService;
 import org.lms.authentication.interceptors.CurrentUser;
 import org.lms.authentication.interceptors.HasRole;
+import org.lms.mediafiles.models.MediaFile;
 import org.lms.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("course/{courseId}/announcements")
+@RequestMapping("courses/{courseId}/announcements")
 public class AnnouncementController {
     private AnnouncementService announcementService;
 
@@ -29,6 +32,18 @@ public class AnnouncementController {
         return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
 
     }
+
+//    @HasRole({"INSTRUCTOR"})
+    @PostMapping("/{id}/attachments")
+    public ResponseEntity<MediaFile> addAttachment(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) throws Exception {
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAttachment(Integer.parseInt(id), file));
+    }
+
+    @GetMapping("/{id}/attachments")
+    public ResponseEntity<List<MediaFile>> getAttachments(@PathVariable("id") String id) throws Exception {
+        return ResponseEntity.ok().body(announcementService.getAttachments(Integer.parseInt(id)));
+    }
+
     @GetMapping("/")
     // get all announcements
     public ResponseEntity<List<Annoucement>> getAllAnnouncements() {
