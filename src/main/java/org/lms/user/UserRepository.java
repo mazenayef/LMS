@@ -1,5 +1,6 @@
 package org.lms.user;
 
+import org.lms.shared.exceptions.HttpBadRequestException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,12 +20,12 @@ public class UserRepository {
         userCreated.setRole(user.getRole());
         userCreated.setId(UserDB.Users.size() + 1);
         if (UserDB.Users.stream().anyMatch(u -> u.getEmail().equals(userCreated.getEmail()))) {
-            throw new Exception("Email already exists");
+            throw new HttpBadRequestException("Email already exists");
         }
         else {
             // Check if the user have all data
             if (user.getFirstName() == null || user.getLastName() == null || user.getPassword() == null || user.getEmail() == null || user.getRole() == null) {
-                throw new Exception("User data is missing");
+                throw new HttpBadRequestException("User data is missing");
             }
 
             UserDB.Users.add(userCreated);
