@@ -16,26 +16,7 @@ public class AssignmentSubmissionRepository {
     static public List<AssignmentSubmission> assignmentSubmissionDB=new ArrayList<>();
 
     AssignmentSubmissionRepository(){
-        // Assignment  assignment2=new Assignment(
-        //     "Software",
-        //     "blah", 
-        //     "25/12",
-        //     2
-        //     ); 
-        // AssignmentSubmission assignmentSubmission1= new AssignmentSubmission(
-        //     "12/5",
-        //     null,
-        //     1,
-        //     assignment2
-        //     );
-        //     AssignmentSubmission assignmentSubmission2= new AssignmentSubmission(
-        //     "12/6",
-        //     null,
-        //     1,
-        //     assignment2            
-        //     );
-        //     assignmentSubmissionDB.add(assignmentSubmission2);
-        //     assignmentSubmissionDB.add(assignmentSubmission1);
+        
     }
 
     public AssignmentSubmission findAssignmentSubmission(Integer id) throws Exception{
@@ -64,18 +45,7 @@ public class AssignmentSubmissionRepository {
         }
         return assignmentSubmission;
     }
-    // public List<AssignmentSubmission> findStudentAssignmentSubmissions(Integer studentID) throws Exception{
-    //     List<AssignmentSubmission> assignmentSubmission=new ArrayList<>();
-    //     for (AssignmentSubmission it : assignmentSubmissionDB) {
-    //         if (it.getStudentID()==studentID) {
-    //             assignmentSubmission.add(it);
-    //         }
-    //     }
-    //     if(assignmentSubmission.size()==0){
-    //         throw new Exception("there is not exist");
-    //     }
-    //     return assignmentSubmission;
-    // }
+    
     public void deleteAssignmentSubmission(Integer id) throws Exception{
         for (AssignmentSubmission it : assignmentSubmissionDB) {
             if (it.getId()==id) {
