@@ -7,6 +7,7 @@ import org.lms.Notificiation.DTOs.EmailObject;
 import org.lms.Notificiation.DTOs.NotificationSet;
 import org.lms.Notificiation.Services.NotificationService;
 import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.user.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,6 +39,7 @@ public class NotificationController {
         return ResponseEntity.ok(_service.get(user.getId(), unRead));
     }
 
+    @HasRole("ADMIN")
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public ResponseEntity<ResponseObject> update(@PathVariable int id, @RequestBody NotificationSet notification){
         ResponseObject result = _service.update(id, notification);
@@ -56,6 +58,7 @@ public class NotificationController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @HasRole("ADMIN")
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable int id){
         _service.delete(id);
