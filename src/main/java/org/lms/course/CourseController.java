@@ -44,7 +44,7 @@ public class CourseController {
     }
 
     // Add course
-    @PostMapping("/create")
+    @PostMapping("/")
     @HasRole({"ADMIN"})
     public ResponseEntity<Course> addCourse(@RequestBody CourseDTO course, @CurrentUser User currentUser) throws Exception {
         try {
@@ -56,7 +56,7 @@ public class CourseController {
     }
 
     // Update course
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @HasRole({"ADMIN"})
     public ResponseEntity<Course> updateCourse(@PathVariable("id") Integer id,@RequestBody CourseDTO course, @CurrentUser User currentUser) throws Exception {
         try {

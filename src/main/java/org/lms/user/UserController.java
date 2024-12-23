@@ -30,6 +30,16 @@ public class UserController {
         return "Test";
     }
 
+    @PostMapping("/")
+    @HasRole({"ADMIN"})
+    public ResponseEntity<User> createUser(@RequestBody UserDTO user, @CurrentUser User currentUser){
+        try {
+            return ResponseEntity.ok().body(userService.createUser(user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    };
+
     @PatchMapping("/{id}")
     @HasRole({"ADMIN"})
     public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser){

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/course/{courseId}/enrollment")
+@RequestMapping("/courses/{courseId}/enrollment")
 public class EnrollmentController {
     private EnrollmentService enrollmentService;
 
@@ -21,36 +21,39 @@ public class EnrollmentController {
         return "Enrollment Controller works!";
     }
 
-    @PostMapping("/join")
+    @PatchMapping("/join")
     @HasRole({"STUDENT", "INSTRUCTOR"})
-    public ResponseEntity<String> joinCourse(@PathVariable("courseId") Integer courseId, @CurrentUser User currentUser) throws Exception{
+    public ResponseEntity<String> joinCourse(@PathVariable("courseId") String courseId, @CurrentUser User currentUser) throws Exception{
         Integer userId = currentUser.getId();
-
+        Integer courseIdInt = Integer.parseInt(courseId);
         try {
-            if (currentUser.getRole().equals("INSTRUCTOR")) {
-                return ResponseEntity.ok().body(enrollmentService.joinInstructorCourse(courseId, userId));
+            if (currentUser.getRole() == User.Role.INSTRUCTOR) {
+                return ResponseEntity.ok().body(enrollmentService.joinInstructorCourse(courseIdInt, userId));
             }
-            else {
-                return ResponseEntity.ok().body(enrollmentService.joinStudentCourse(courseId, userId));
+            else if (currentUser.getRole() == User.Role.STUDENT) {
+                return ResponseEntity.ok().body(enrollmentService.joinStudentCourse(courseIdInt, userId));
             }
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.ok().body(e.getMessage());
         }
+        return null;
     }
 
-    @PostMapping("/leave")
+    @PatchMapping("/leave")
     @HasRole({"STUDENT", "INSTRUCTOR"})
-    public ResponseEntity<String> leaveCourse(@PathVariable("courseId") Integer courseId, @CurrentUser User currentUser) throws Exception{
+    public ResponseEntity<String> leaveCourse(@PathVariable("courseId") String courseId, @CurrentUser User currentUser) throws Exception{
         Integer userId = currentUser.getId();
+        Integer courseIdInt = Integer.parseInt(courseId);
         try {
-            if (currentUser.getRole().equals("INSTRUCTOR")) {
-                return ResponseEntity.ok().body(enrollmentService.leaveInstructorCourse(courseId, userId));
+            if (currentUser.getRole() == User.Role.INSTRUCTOR) {
+                return ResponseEntity.ok().body(enrollmentService.leaveInstructorCourse(courseIdInt, userId));
             }
-            else {
-                return ResponseEntity.ok().body(enrollmentService.leaveStudentCourse(courseId, userId));
+            else if (currentUser.getRole() == User.Role.STUDENT) {
+                return ResponseEntity.ok().body(enrollmentService.leaveStudentCourse(courseIdInt, userId));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+        return null;
     }
 }
