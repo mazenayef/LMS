@@ -5,6 +5,7 @@ import org.lms.announcement.dtos.AnnouncementDTO;
 import org.lms.announcement.models.Annoucement;
 import org.lms.announcement.services.AnnouncementService;
 import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,32 +15,20 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("auth/course/{courseId}/announcements")
+@RequestMapping("course/{courseId}/announcements")
 public class AnnouncementController {
     private AnnouncementService announcementService;
 
     public AnnouncementController(AnnouncementService announcementService) {
         this.announcementService = announcementService;
     }
-
+    @HasRole({"INSTRUCTOR"})
     @PostMapping("/")
     // only instructor can add announcement
-    // announcement without attachment
     public ResponseEntity<Annoucement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) {
-        if (!user.getRole().equals(User.Role.INSTRUCTOR)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
+
     }
-//    @PostMapping("/addwithattachment")
-//    // announcement with attachment
-//    ResponseEntity<Annoucement> addAnnouncement(AnnouncementDTO announcementDTO, List <MultipartFile> file) {
-//        return ResponseEntity.ok().body(announcementService.addAnnouncement(announcementDTO, file));
-//    }
     @GetMapping("/")
     // get all announcements
     public ResponseEntity<List<Annoucement>> getAllAnnouncements() {
@@ -54,26 +43,20 @@ public class AnnouncementController {
             return ResponseEntity.notFound().build();
         }
     }
+    @HasRole({"INSTRUCTOR"})
     @PutMapping("/{id}")
     // update announcement
     public ResponseEntity<Annoucement> updateAnnouncement(@PathVariable("id") Integer id,@RequestBody AnnouncementDTO announcementDTO , @CurrentUser User user) throws Exception {
-        if (!user.getRole().equals(User.Role.INSTRUCTOR)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        try {
-            return ResponseEntity.ok().body(announcementService.updateAnnouncement(id, announcementDTO));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body(announcementService.updateAnnouncement(id, announcementDTO));
+
     }
+    @HasRole({"INSTRUCTOR"})
     @DeleteMapping("/{id}")
     // delete announcement
-    public ResponseEntity<String> deleteAnnouncement(@PathVariable("id") Integer id) throws Exception {
-        try {
-            return ResponseEntity.ok().body(announcementService.deleteAnnouncement(id));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteAnnouncement(@PathVariable("id") Integer id) throws Exception {
+        announcementService.deleteAnnouncement(id);
+        return ResponseEntity.ok().build();
+
     }
 
 

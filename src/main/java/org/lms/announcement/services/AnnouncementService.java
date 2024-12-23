@@ -29,8 +29,8 @@ public class AnnouncementService {
     public Annoucement updateAnnouncement(Integer id, AnnouncementDTO announcementDTO) throws Exception {
         return announcementRepository.update(id, announcementDTO);
     }
-    public String deleteAnnouncement(Integer id) throws Exception {
-        return announcementRepository.delete(id);
+    public void deleteAnnouncement(Integer id) throws Exception {
+        announcementRepository.delete(id);
     }
 
 }

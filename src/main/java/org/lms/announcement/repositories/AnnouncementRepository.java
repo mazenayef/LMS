@@ -2,6 +2,7 @@ package org.lms.announcement.repositories;
 
 import org.lms.announcement.dtos.AnnouncementDTO;
 import org.lms.announcement.models.Annoucement;
+import org.lms.shared.exceptions.HttpNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ public class AnnouncementRepository {
                 return announcement;
             }
         }
-        throw new Exception("Announcement not found");
+        throw new HttpNotFoundException("Announcement not found");
     }
     public Annoucement update(Integer id, AnnouncementDTO announcementDTO) throws Exception {
         for (Annoucement announcement : announcements) {
@@ -39,16 +40,15 @@ public class AnnouncementRepository {
                 return announcement;
             }
         }
-        throw new Exception("Announcement not found");
+        throw new HttpNotFoundException("Announcement not found");
     }
-    public String delete(Integer id) throws Exception {
+    public void delete(Integer id) throws Exception {
         for (Annoucement announcement : announcements) {
             if (announcement.getId().equals(id)) {
                 announcements.remove(announcement);
-                return "Announcement deleted successfully";
+                return ;
             }
         }
-        throw new Exception("Announcement not found");
     }
 
 }
