@@ -7,6 +7,7 @@ import org.lms.Quiz.DTOs.QuizDTOs.QuizSet;
 import org.lms.Quiz.Models.QuizAttempt;
 import org.lms.Quiz.Services.QuizService;
 import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.user.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class QuizController {
         this._service = service;
     }
     
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @PostMapping(value = "/create", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseObject> create(@RequestBody QuizSet question){
         ResponseObject result = _service.create(question);
@@ -36,6 +38,7 @@ public class QuizController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<ResponseObject> getALL() throws InterruptedException, ExecutionException{
         ResponseObject result = _service.getAll().get(); 
@@ -48,6 +51,7 @@ public class QuizController {
         return ResponseEntity.ok(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @PutMapping(value = "/update/{id}", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseObject> update(@PathVariable int id, @RequestBody QuizSet questionSet) throws InterruptedException, ExecutionException{
         ResponseObject result = _service.update(id,questionSet).get();
@@ -56,6 +60,7 @@ public class QuizController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @DeleteMapping(value = "/delete/{id}")
     public void delet(@PathVariable int id){
         _service.delete(id);
@@ -77,6 +82,7 @@ public class QuizController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @GetMapping(value = "/student/{id}/grades", produces = "application/json")
     public ResponseEntity<ResponseObject> getMarks(@PathVariable int id){
         ResponseObject result = _service.getStudentGrade(id);
