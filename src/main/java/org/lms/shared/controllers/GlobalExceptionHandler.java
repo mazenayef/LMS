@@ -1,6 +1,7 @@
 package org.lms.shared.controllers;
 
 import org.lms.shared.exceptions.HttpBadRequestException;
+import org.lms.shared.exceptions.HttpForbiddenException;
 import org.lms.shared.exceptions.HttpNotFoundException;
 import org.lms.shared.models.CommonResponse;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,13 @@ public class GlobalExceptionHandler {
 		exceptionMessageHolder.set(e.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+
+	@ExceptionHandler(HttpForbiddenException.class)
+	public ResponseEntity<CommonResponse> handleForbiddenException(HttpNotFoundException e) {
+		exceptionMessageHolder.set(e.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	}
+
 
 	public static String getExceptionMessage() {
 		return exceptionMessageHolder.get();
