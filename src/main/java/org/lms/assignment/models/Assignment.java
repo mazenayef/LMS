@@ -12,6 +12,8 @@ import org.lms.mediafiles.models.MediaFile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
 public class Assignment {
     static private Integer count=0;
     private Integer id;
@@ -37,56 +39,67 @@ public class Assignment {
         this.id=count+1;
     }
 
-    public Integer getId(){
+    public static Integer getCount() {
+        return count;
+    }
+
+    public static void setCount(Integer count) {
+        Assignment.count = count;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public String getTitle (){
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
         return title;
     }
 
-    public String getDescription (){
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
         return description;
     }
 
-    public String getDueDate (){
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDueDate() {
         return dueDate;
     }
 
-    public MediaFileResourceDto getMedia (){
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public MediaFileResourceDto getMedia() {
         return media;
     }
 
-    public Integer getCourseID (){
+    public void setMedia(MediaFileResourceDto media) {
+        this.media = media;
+    }
+
+    public Integer getCourseID() {
         return courseID;
     }
 
-    public List <AssignmentSubmission> getAssignmentSubmation (){
+    public void setCourseID(Integer courseID) {
+        this.courseID = courseID;
+    }
+
+    public List<AssignmentSubmission> getAssignmentSubmation() {
         return assignmentSubmation;
     }
 
-    public void setTitle (String title){
-        this.title=title;
+    public void setAssignmentSubmation(List<AssignmentSubmission> assignmentSubmation) {
+        this.assignmentSubmation = assignmentSubmation;
     }
-
-    public void setDescription (String description){
-        this.description=description;
-    }
-
-    public void setDueDate (String dueDate){
-        this.dueDate=dueDate;
-    }
-
-    public void setMedia (MediaFileResourceDto media){
-        this.media=media;
-    }
-
-    public void setCourseID (Integer courseID){
-        this.courseID=courseID;
-    }
-
-    public void setAssignmentSubmation (List <AssignmentSubmission> assignmentSubmation){
-        this.assignmentSubmation=assignmentSubmation;
-    }
-
 }

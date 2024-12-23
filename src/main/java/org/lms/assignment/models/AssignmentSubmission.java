@@ -12,8 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@AllArgsConstructor
 public class AssignmentSubmission {
     static private Integer count=0;
     private Integer id;
@@ -42,55 +40,67 @@ public class AssignmentSubmission {
         this.grade=grade;
     }
 
-    public Integer getId(){
+    public static Integer getCount() {
+        return count;
+    }
+
+    public static void setCount(Integer count) {
+        AssignmentSubmission.count = count;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public String getCreatedAt(){
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public MediaFileResourceDto getMedia(){
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public MediaFileResourceDto getMedia() {
         return media;
     }
 
-    public User getStudent(){
+    public void setMedia(MediaFileResourceDto media) {
+        this.media = media;
+    }
+
+    public User getStudent() {
         return student;
     }
 
-    public Integer getAssignmentID(){
+    public void setStudent(User student) {
+        this.student = student;
+    }
+
+    public Integer getAssignmentID() {
         return assignmentID;
     }
 
-    public double getGrade(){
+    public void setAssignmentID(Integer assignmentID) {
+        this.assignmentID = assignmentID;
+    }
+
+    public double getGrade() {
         return grade;
     }
 
-    public boolean isCorrected(){
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public boolean isCorrected() {
         return corrected;
     }
 
-    public void setCreatedAt(String createdAt){
-        this.createdAt=createdAt;
-    }
-
-    public void setMedia(MediaFileResourceDto media){
-        this.media=media;
-    }
-
-    public void setStudent(User student){
-        this.student=student;
-    }
-
-    public void setAssignmentID(Integer assignmentID){
-        this.assignmentID=assignmentID;
-    }
-
-    public void setGrade(double grade){
-        this.grade=grade;
-    }
-
-    public void setCorrected(boolean corrected){
-        this.corrected=corrected;
+    public void setCorrected(boolean corrected) {
+        this.corrected = corrected;
     }
 }
