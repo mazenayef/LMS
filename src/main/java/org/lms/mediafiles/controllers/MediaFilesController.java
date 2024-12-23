@@ -19,13 +19,9 @@ public class MediaFilesController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Resource> getMediFile(@PathVariable("id") String id) {
-		try {
-			MediaFileResourceDto mediaFileResourceDto = this.mediaFilesService.getMediaResource(Integer.parseInt(id));
+	public ResponseEntity<Resource> getMediFile(@PathVariable("id") String id) throws Exception {
+		MediaFileResourceDto mediaFileResourceDto = this.mediaFilesService.getMediaResource(Integer.parseInt(id));
 
-			return ResponseEntity.ok().body(mediaFileResourceDto.getResource());
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+		return ResponseEntity.ok().body(mediaFileResourceDto.getResource());
 	}
 }

@@ -2,6 +2,8 @@ package org.lms.mediafiles.repositories;
 
 import org.lms.mediafiles.dtos.MediaFileResourceDto;
 import org.lms.mediafiles.models.MediaFile;
+import org.lms.shared.exceptions.HttpBadRequestException;
+import org.lms.shared.exceptions.HttpNotFoundException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Repository;
@@ -41,7 +43,7 @@ public class MediaFilesRepository {
 		}
 
 		if (mediaFile == null) {
-			throw new Exception("No MediaFile with the given Id!");
+			throw new HttpNotFoundException("No MediaFile with the given Id!");
 		}
 
 		Resource resource = loadAsResource(mediaFile.getPath());
@@ -57,7 +59,7 @@ public class MediaFilesRepository {
 		String formattedNow = now.format(formatter);
 
 		if (file.isEmpty()) {
-			throw new Exception("Failed to store empty file.");
+			throw new HttpBadRequestException("Failed to store empty file.");
 		}
 		Path destinationFile = rootLocation.resolve(Paths.get(formattedNow + " " + file.getOriginalFilename()))
 				.normalize().toAbsolutePath();
