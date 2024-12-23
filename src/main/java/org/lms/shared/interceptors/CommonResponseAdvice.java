@@ -29,9 +29,9 @@ public class CommonResponseAdvice implements ResponseBodyAdvice<Object> {
 		String exceptionMessage = GlobalExceptionHandler.getExceptionMessage();
 		if (exceptionMessage != null && !exceptionMessage.equals("")) {
 			GlobalExceptionHandler.clearExceptionMessage();
-			return new CommonResponse(servletResponse.getStatus(), body, exceptionMessage);
+			return new CommonResponse(body, exceptionMessage);
 		}
 
-		return new CommonResponse(servletResponse.getStatus(), body,"Request successful");
+		return new CommonResponse(body,"Request successful");
 	}
 }
