@@ -28,7 +28,7 @@ public class AnnouncementController {
     @HasRole({"INSTRUCTOR"})
     @PostMapping("/")
     // only instructor can add announcement
-    public ResponseEntity<Announcement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) {
+    public ResponseEntity<Announcement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
 
     }
@@ -46,8 +46,8 @@ public class AnnouncementController {
 
     @GetMapping("/")
     // get all announcements
-    public ResponseEntity<List<Announcement>> getAllAnnouncements() {
-        return ResponseEntity.ok().body(announcementService.getAllAnnouncements());
+    public ResponseEntity<List<Announcement>> getAllAnnouncements(@PathVariable("courseId") String courseId) {
+        return ResponseEntity.ok().body(announcementService.getAllAnnouncements(Integer.parseInt(courseId)));
     }
     @GetMapping("/{id}")
     // get announcement by id
