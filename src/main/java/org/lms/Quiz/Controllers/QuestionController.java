@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.QuestionsDTOs.QuestionSet;
 import org.lms.Quiz.Services.QuestionService;
+import org.lms.authentication.interceptors.HasRole;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ public class QuestionController {
         this._service = service;
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @PostMapping(value = "/create", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseObject> createQuestion(@RequestBody QuestionSet question) throws Exception{
         ResponseObject result = _service.createQuestion(question);
@@ -45,6 +47,7 @@ public class QuestionController {
         return ResponseEntity.ok(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public ResponseEntity<ResponseObject> update(@PathVariable int id, @RequestBody QuestionSet questionSet) throws InterruptedException, ExecutionException{
         ResponseObject result;
@@ -54,6 +57,7 @@ public class QuestionController {
         return ResponseEntity.badRequest().body(result);
     } 
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable int id){
         _service.delete(id);

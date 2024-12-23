@@ -12,8 +12,8 @@ import org.lms.mediafiles.models.MediaFile;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@Getter
-@Setter
+
+
 public class Assignment {
     static private Integer count=0;
     private Integer id;
@@ -39,5 +39,69 @@ public class Assignment {
         this.dueDate=dueDate;
         this.id=count+1;
         count++;
+    }
+
+    public static Integer getCount() {
+        return count;
+    }
+
+    public static void setCount(Integer count) {
+        Assignment.count = count;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public MediaFileResourceDto getMedia() {
+        return media;
+    }
+
+    public void setMedia(MediaFileResourceDto media) {
+        this.media = media;
+    }
+
+    public Integer getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(Integer courseID) {
+        this.courseID = courseID;
+    }
+
+    public List<AssignmentSubmission> getAssignmentSubmation() {
+        return assignmentSubmation;
+    }
+
+    public void setAssignmentSubmation(List<AssignmentSubmission> assignmentSubmation) {
+        this.assignmentSubmation = assignmentSubmation;
     }
 }

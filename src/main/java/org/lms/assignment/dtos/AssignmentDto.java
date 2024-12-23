@@ -5,8 +5,8 @@ import org.lms.assignment.models.AssignmentSubmission;
 import org.lms.mediafiles.dtos.MediaFileResourceDto;
 import lombok.Getter;
 import lombok.Setter;
-@Getter
-@Setter
+
+
 public class AssignmentDto {
     private Integer id;
     private String title;
@@ -20,6 +20,46 @@ public class AssignmentDto {
         this.description=description;
         this.dueDate=dueDate;
         this.media=media;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public MediaFileResourceDto getMedia() {
+        return media;
+    }
+
+    public void setMedia(MediaFileResourceDto media) {
+        this.media = media;
+    }
+
+    public List<AssignmentSubmission> getAssignmentSubmation() {
+        return assignmentSubmation;
+    }
+
+    public void setAssignmentSubmation(List<AssignmentSubmission> assignmentSubmation) {
+        this.assignmentSubmation = assignmentSubmation;
     }
 }
 

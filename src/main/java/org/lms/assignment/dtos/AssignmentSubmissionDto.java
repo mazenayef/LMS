@@ -5,8 +5,8 @@ import org.lms.mediafiles.dtos.MediaFileResourceDto;
 
 import lombok.Getter;
 import lombok.Setter;
-@Getter
-@Setter
+
+
 public class AssignmentSubmissionDto {
     private Integer id;
     private String createdAt;
@@ -19,5 +19,37 @@ public class AssignmentSubmissionDto {
         this.grade=grade;
         this.corrected=corrected;
         this.id=id;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public MediaFileResourceDto getMedia() {
+        return media;
+    }
+
+    public void setMedia(MediaFileResourceDto media) {
+        this.media = media;
+    }
+
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public boolean isCorrected() {
+        return corrected;
+    }
+
+    public void setCorrected(boolean corrected) {
+        this.corrected = corrected;
     }
 }
