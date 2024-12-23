@@ -1,6 +1,9 @@
 package org.lms.enrollment;
 
+import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.course.CourseRepository;
+import org.lms.user.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,20 +22,33 @@ public class EnrollmentController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<String> joinCourse(@PathVariable("courseId") Integer courseId) throws Exception{
-        Integer studentId = 55;
+    @HasRole({"STUDENT", "INSTRUCTOR"})
+    public ResponseEntity<String> joinCourse(@PathVariable("courseId") Integer courseId, @CurrentUser User currentUser) throws Exception{
+        Integer userId = currentUser.getId();
+
         try {
-            return ResponseEntity.ok().body(enrollmentService.joinCourse(courseId, studentId));
+            if (currentUser.getRole().equals("INSTRUCTOR")) {
+                return ResponseEntity.ok().body(enrollmentService.joinInstructorCourse(courseId, userId));
+            }
+            else {
+                return ResponseEntity.ok().body(enrollmentService.joinStudentCourse(courseId, userId));
+            }
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/leave")
-    public ResponseEntity<String> leaveCourse(@PathVariable("courseId") Integer courseId) throws Exception{
-        Integer studentId = 55;
+    @HasRole({"STUDENT", "INSTRUCTOR"})
+    public ResponseEntity<String> leaveCourse(@PathVariable("courseId") Integer courseId, @CurrentUser User currentUser) throws Exception{
+        Integer userId = currentUser.getId();
         try {
-            return ResponseEntity.ok().body(enrollmentService.leaveCourse(courseId, studentId));
+            if (currentUser.getRole().equals("INSTRUCTOR")) {
+                return ResponseEntity.ok().body(enrollmentService.leaveInstructorCourse(courseId, userId));
+            }
+            else {
+                return ResponseEntity.ok().body(enrollmentService.leaveStudentCourse(courseId, userId));
+            }
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

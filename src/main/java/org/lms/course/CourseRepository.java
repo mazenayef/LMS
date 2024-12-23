@@ -27,7 +27,7 @@ public class CourseRepository {
             throw new Exception("Invalid course data");
         }
         else {
-            Course newCourse = new Course(CourseDB.courseList.size() + 1, course.getTitle(), course.getDescription(), course.getDuration(), course.getStudentList(), course.getAssignmentList(), course.getAnnouncementList(), course.getQuizList(), course.getLessonList(), course.getQuestionList());
+            Course newCourse = new Course(CourseDB.courseList.size() + 1, course.getTitle(), course.getDescription(), course.getDuration(), course.getStudentList(), course.getAssignmentList(), course.getAnnouncementList(), course.getQuizList(), course.getLessonList(), course.getInstructorList());
             CourseDB.courseList.add(newCourse);
             return newCourse;
         }
@@ -60,8 +60,8 @@ public class CourseRepository {
                 if (course.getLessonList() != null) {
                     c.setLessonList(course.getLessonList());
                 }
-                if (course.getQuestionList() != null) {
-                    c.setQuestionList(course.getQuestionList());
+                if (course.getInstructorList() != null) {
+                    c.setInstructorList(course.getInstructorList());
                 }
                 return c;
             }
@@ -78,7 +78,7 @@ public class CourseRepository {
         }
     }
 
-    public String joinCourse (Integer courseId, Integer studentId) throws Exception {
+    public String joinStudentCourse (Integer courseId, Integer studentId) throws Exception {
         Course course = getCourseById(courseId);
         if (course.getStudentList().contains(studentId)) {
             throw new Exception("Student already enrolled in course");
@@ -87,12 +87,30 @@ public class CourseRepository {
         return "Student enrolled in course";
     }
 
-    public String leaveCourse (Integer courseId, Integer studentId) throws Exception {
+    public String leaveStudentCourse (Integer courseId, Integer studentId) throws Exception {
         Course course = getCourseById(courseId);
         if (!course.getStudentList().contains(studentId)) {
             throw new Exception("Student not enrolled in course");
         }
         course.getStudentList().remove(studentId);
         return "Student removed from course";
+    }
+
+    public String joinInstructorCourse (Integer courseId, Integer instructorId) throws Exception {
+        Course course = getCourseById(courseId);
+        if (course.getInstructorList().contains(instructorId)) {
+            throw new Exception("Instructor already enrolled in course");
+        }
+        course.getInstructorList().add(instructorId);
+        return "Instructor enrolled in course";
+    }
+
+    public String leaveInstructorCourse (Integer courseId, Integer instructorId) throws Exception {
+        Course course = getCourseById(courseId);
+        if (!course.getInstructorList().contains(instructorId)) {
+            throw new Exception("Instructor not enrolled in course");
+        }
+        course.getInstructorList().remove(instructorId);
+        return "Instructor removed from course";
     }
 }

@@ -12,11 +12,19 @@ public class EnrollmentService {
         this.courseService = courseService;
     }
 
-    public String joinCourse (Integer courseId, Integer studentId) throws Exception {
-        return courseService.joinCourse(courseId, studentId);
+    public String joinStudentCourse (Integer courseId, Integer studentId) throws Exception {
+        return courseService.joinStudentCourse(courseId, studentId);
     }
 
-    public String leaveCourse (Integer courseId, Integer studentId) throws Exception {
-        return courseService.leaveCourse(courseId, studentId);
+    public String leaveStudentCourse (Integer courseId, Integer studentId) throws Exception {
+        return courseService.leaveStudentCourse(courseId, studentId);
+    }
+
+    public String joinInstructorCourse (Integer courseId, Integer instructorId) throws Exception {
+        return courseService.joinInstructorCourse(courseId, instructorId);
+    }
+
+    public String leaveInstructorCourse (Integer courseId, Integer instructorId) throws Exception {
+        return courseService.leaveInstructorCourse(courseId, instructorId);
     }
 }

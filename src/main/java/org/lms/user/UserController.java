@@ -1,6 +1,8 @@
 package org.lms.user;
 
+import org.lms.Models.ResponseObject;
 import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -29,34 +31,26 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
+    @HasRole({"ADMIN"})
     public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser){
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        else {
-            try {
-                return ResponseEntity.ok().body(userService.updateUserById(id, user));
-            } catch (Exception e) {
-                return ResponseEntity.badRequest().build();
-            }
+        try {
+            return ResponseEntity.ok().body(userService.updateUserById(id, user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     };
 
     @DeleteMapping("/{id}")
+    @HasRole({"ADMIN"})
     public ResponseEntity deleteUserById(@PathVariable("id") Integer id, @CurrentUser User currentUser){
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
     };
 
     @GetMapping("/{id}")
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     public ResponseEntity<User> findUserById(@PathVariable("id") String id, @CurrentUser User currentUser) {
         Integer idUsed = Integer.parseInt(id);
-        if (currentUser.getRole() != User.Role.ADMIN && currentUser.getRole() != User.Role.INSTRUCTOR) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
         try {
             return ResponseEntity.ok().body(userService.findUserById(idUsed));
         } catch (Exception e) {
@@ -66,10 +60,8 @@ public class UserController {
     };
 
     @GetMapping("/")
+    @HasRole({"ADMIN"})
     public ResponseEntity<List<User>> findAllUsers(@CurrentUser User currentUser) {
-        if (currentUser.getRole() != User.Role.ADMIN) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
         return ResponseEntity.ok().body(userService.findAll());
     }
 }
