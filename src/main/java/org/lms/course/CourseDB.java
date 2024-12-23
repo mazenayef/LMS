@@ -34,6 +34,7 @@ public class CourseDB {
                 }
             }, new ArrayList<Integer>() {
                 {
+                    add(1);
                 }
             }));
         }

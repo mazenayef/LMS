@@ -32,41 +32,28 @@ public class UserController {
 
     @PostMapping("/")
     @HasRole({"ADMIN"})
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user, @CurrentUser User currentUser){
-        try {
-            return ResponseEntity.ok().body(userService.createUser(user));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<User> createUser(@RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
+        return ResponseEntity.ok().body(userService.createUser(user));
     };
 
     @PatchMapping("/{id}")
     @HasRole({"ADMIN"})
-    public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser){
-        try {
-            return ResponseEntity.ok().body(userService.updateUserById(id, user));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
+        return ResponseEntity.ok().body(userService.updateUserById(id, user));
     };
 
     @DeleteMapping("/{id}")
     @HasRole({"ADMIN"})
-    public ResponseEntity deleteUserById(@PathVariable("id") Integer id, @CurrentUser User currentUser){
+    public ResponseEntity deleteUserById(@PathVariable("id") Integer id, @CurrentUser User currentUser) {
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
     };
 
     @GetMapping("/{id}")
     @HasRole({"ADMIN", "INSTRUCTOR"})
-    public ResponseEntity<User> findUserById(@PathVariable("id") String id, @CurrentUser User currentUser) {
+    public ResponseEntity<User> findUserById(@PathVariable("id") String id, @CurrentUser User currentUser) throws Exception{
         Integer idUsed = Integer.parseInt(id);
-        try {
-            return ResponseEntity.ok().body(userService.findUserById(idUsed));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body(userService.findUserById(idUsed));
     };
 
     @GetMapping("/")

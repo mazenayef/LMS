@@ -47,4 +47,8 @@ public class CourseService {
     public String leaveInstructorCourse(Integer courseId, Integer instructorId) throws Exception {
         return courseRepository.leaveInstructorCourse(courseId, instructorId);
     }
+
+    public List<Integer> getInstructorList(Integer courseId) throws Exception {
+        return courseRepository.getInstructorList(courseId);
+    }
 }

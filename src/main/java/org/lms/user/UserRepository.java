@@ -1,6 +1,7 @@
 package org.lms.user;
 
 import org.lms.shared.exceptions.HttpBadRequestException;
+import org.lms.shared.exceptions.HttpNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +28,9 @@ public class UserRepository {
             if (user.getFirstName() == null || user.getLastName() == null || user.getPassword() == null || user.getEmail() == null || user.getRole() == null) {
                 throw new HttpBadRequestException("User data is missing");
             }
+            if (user.getRole() != User.Role.ADMIN && user.getRole() != User.Role.INSTRUCTOR && user.getRole() != User.Role.STUDENT) {
+                throw new HttpBadRequestException("Invalid role");
+            }
 
             UserDB.Users.add(userCreated);
             return userCreated;
@@ -36,7 +40,7 @@ public class UserRepository {
     User findUserById(Integer id) throws Exception{
         User userReturned = UserDB.Users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
         if (userReturned == null) {
-            throw new Exception("User not found");
+            throw new HttpNotFoundException("User not found");
         }
         else {
             return userReturned;
@@ -46,7 +50,7 @@ public class UserRepository {
     User findUserByEmail(String email) throws Exception{
         User userReturned = UserDB.Users.stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
         if (userReturned == null) {
-            throw new Exception("User not found");
+            throw new HttpNotFoundException("User not found");
         }
         else {
             return userReturned;
@@ -77,7 +81,7 @@ public class UserRepository {
             }
         }
         else {
-            throw new Exception("User not found");
+            throw new HttpNotFoundException("User not found");
         }
         return userToUpdate;
     };
@@ -86,4 +90,12 @@ public class UserRepository {
         User userToDelete = UserDB.Users.stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
         UserDB.Users.remove(userToDelete);
     };
+
+    String getEmailById (Integer id){
+        User user = UserDB.Users.stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
+        if (user == null) {
+            return null;
+        }
+        return user.getEmail();
+    }
 }

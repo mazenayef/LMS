@@ -36,34 +36,21 @@ public class CourseController {
     // Get course by id
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable("id") Integer id) throws Exception {
-        try {
-            return ResponseEntity.ok().body(courseService.getCourseById(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body(courseService.getCourseById(id));
     }
 
     // Add course
     @PostMapping("/")
     @HasRole({"ADMIN"})
     public ResponseEntity<Course> addCourse(@RequestBody CourseDTO course, @CurrentUser User currentUser) throws Exception {
-        try {
-            return ResponseEntity.ok().body(courseService.addCourse(course));
-        }
-        catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.addCourse(course));
     }
 
     // Update course
     @PatchMapping("/{id}")
     @HasRole({"ADMIN"})
     public ResponseEntity<Course> updateCourse(@PathVariable("id") Integer id,@RequestBody CourseDTO course, @CurrentUser User currentUser) throws Exception {
-        try {
-            return ResponseEntity.ok().body(courseService.updateCourse(id, course));
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body(courseService.updateCourse(id, course));
     }
 
     // Delete course
