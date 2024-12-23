@@ -2,7 +2,7 @@ package org.lms.announcement.controllers;
 
 
 import org.lms.announcement.dtos.AnnouncementDTO;
-import org.lms.announcement.models.Annoucement;
+import org.lms.announcement.models.Announcement;
 import org.lms.announcement.services.AnnouncementService;
 import org.lms.authentication.interceptors.CurrentUser;
 import org.lms.authentication.interceptors.HasRole;
@@ -28,7 +28,7 @@ public class AnnouncementController {
     @HasRole({"INSTRUCTOR"})
     @PostMapping("/")
     // only instructor can add announcement
-    public ResponseEntity<Annoucement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) {
+    public ResponseEntity<Announcement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) {
         return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
 
     }
@@ -46,12 +46,12 @@ public class AnnouncementController {
 
     @GetMapping("/")
     // get all announcements
-    public ResponseEntity<List<Annoucement>> getAllAnnouncements() {
+    public ResponseEntity<List<Announcement>> getAllAnnouncements() {
         return ResponseEntity.ok().body(announcementService.getAllAnnouncements());
     }
     @GetMapping("/{id}")
     // get announcement by id
-    public ResponseEntity<Annoucement> getAnnouncementById(@PathVariable("id") String id) throws Exception {
+    public ResponseEntity<Announcement> getAnnouncementById(@PathVariable("id") String id) throws Exception {
         try {
             return ResponseEntity.ok().body(announcementService.getAnnouncementById(Integer.parseInt(id)));
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class AnnouncementController {
     @HasRole({"INSTRUCTOR"})
     @PutMapping("/{id}")
     // update announcement
-    public ResponseEntity<Annoucement> updateAnnouncement(@PathVariable("id") Integer id,@RequestBody AnnouncementDTO announcementDTO , @CurrentUser User user) throws Exception {
+    public ResponseEntity<Announcement> updateAnnouncement(@PathVariable("id") Integer id, @RequestBody AnnouncementDTO announcementDTO , @CurrentUser User user) throws Exception {
         return ResponseEntity.ok().body(announcementService.updateAnnouncement(id, announcementDTO));
 
     }

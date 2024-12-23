@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-public class Annoucement {
+public class Announcement {
     private Integer id;
     private String title;
     private String description;
@@ -13,7 +13,7 @@ public class Annoucement {
     private Integer courseId;
     private List<Integer> MediaFileList;
 
-    public Annoucement(Integer id, String title, String description, Integer courseId, List<Integer> mediaFileList) {
+    public Announcement(Integer id, String title, String description, Integer courseId, List<Integer> mediaFileList) {
         this.id = id;
         this.title = title;
         this.description = description;
