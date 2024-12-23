@@ -51,4 +51,14 @@ public class AnnouncementRepository {
         }
     }
 
+    public void addAttachment(Integer announcementId, Integer mediaFileId) throws Exception {
+        for (Annoucement announcement : announcements) {
+            if (announcement.getId().equals(announcementId)) {
+                announcement.addMediaFile(mediaFileId);
+                return;
+            }
+        }
+        throw new HttpNotFoundException("Announcement not found");
+    }
+
 }

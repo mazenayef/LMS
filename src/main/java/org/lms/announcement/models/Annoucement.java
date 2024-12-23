@@ -69,4 +69,8 @@ public class Annoucement {
     public void setMediaFileList(List<Integer> mediaFileList) {
         MediaFileList = mediaFileList;
     }
+
+    public void addMediaFile(Integer mediaFileId) {
+        this.MediaFileList.add(mediaFileId);
+    }
 }
