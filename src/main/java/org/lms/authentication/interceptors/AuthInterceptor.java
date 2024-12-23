@@ -32,11 +32,16 @@ public class AuthInterceptor implements HandlerInterceptor {
 		if (jwtCookie.isPresent()) {
 			String token = jwtCookie.get().getValue();
 			Claims claims = this.jwtService.extractAllClaims(token);
-			User user = this.userService.findUserById(claims.get("id", Integer.class));
-
-			if (user != null) {
+			try {
+				User user = this.userService.findUserById(claims.get("id", Integer.class));
 				request.setAttribute("userId", user.getId());
+				request.setAttribute("userRole", user.getRole().toString());
 				return true;
+			} catch (Exception e) {
+				response.setStatus(HttpStatus.UNAUTHORIZED.value());
+				response.setContentType("application/json");
+				response.getWriter().write("{\"error\": \"Unauthorized\"}");
+				return false;
 			}
 		}
 
