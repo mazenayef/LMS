@@ -11,12 +11,13 @@ public class CourseDTO {
     private List<Integer> announcementList;
     private List<Integer> quizList;
     private List<Integer> lessonList;
-    private List<Integer> questionList;
+
+    private List<Integer> instructorList;
 
     public CourseDTO() {
     }
 
-    public CourseDTO(String title, String description, Integer duration, List<Integer> studentList, List<Integer> assignmentList, List<Integer> announcementList, List<Integer> quizList, List<Integer> lessonList, List<Integer> questionList) {
+    public CourseDTO(String title, String description, Integer duration, List<Integer> studentList, List<Integer> assignmentList, List<Integer> announcementList, List<Integer> quizList, List<Integer> lessonList, List<Integer> instructorList) {
         this.title = title;
         this.description = description;
         this.duration = duration;
@@ -25,7 +26,7 @@ public class CourseDTO {
         this.announcementList = announcementList;
         this.quizList = quizList;
         this.lessonList = lessonList;
-        this.questionList = questionList;
+        this.instructorList = instructorList;
     }
 
     public String getTitle() {
@@ -92,12 +93,12 @@ public class CourseDTO {
         this.lessonList = lessonList;
     }
 
-    public List<Integer> getQuestionList() {
-        return questionList;
+    public List<Integer> getInstructorList() {
+        return instructorList;
     }
 
-    public void setQuestionList(List<Integer> questionList) {
-        this.questionList = questionList;
+    public void setInstructorList(List<Integer> instructorList) {
+        this.instructorList = instructorList;
     }
 
     @Override
@@ -111,7 +112,7 @@ public class CourseDTO {
                 ", announcementList=" + announcementList +
                 ", quizList=" + quizList +
                 ", lessonList=" + lessonList +
-                ", questionList=" + questionList +
+                ", instructorList=" + instructorList +
                 '}';
     }
 }

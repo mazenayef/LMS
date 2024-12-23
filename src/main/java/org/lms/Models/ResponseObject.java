@@ -8,4 +8,8 @@ public class ResponseObject {
         this.message = message;
         this.data = data;
     }
+
+    public ResponseObject(Object data) {
+        this.data = data;
+    }
 }

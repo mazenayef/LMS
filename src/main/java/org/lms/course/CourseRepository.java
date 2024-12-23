@@ -1,7 +1,10 @@
 package org.lms.course;
 
+import org.lms.shared.exceptions.HttpBadRequestException;
+import org.lms.shared.exceptions.HttpNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,7 +18,7 @@ public class CourseRepository {
                 }
             }
         }
-        throw new Exception("Course not found");
+        throw new HttpNotFoundException("Course not found");
     }
 
     public List<Course> getAllCourses() {
@@ -24,10 +27,10 @@ public class CourseRepository {
 
     public Course addCourse(CourseDTO course) throws Exception{
         if (course.getTitle() == null || course.getDescription() == null || course.getDuration() == null) {
-            throw new Exception("Invalid course data");
+            throw new HttpBadRequestException("Invalid course data");
         }
         else {
-            Course newCourse = new Course(CourseDB.courseList.size() + 1, course.getTitle(), course.getDescription(), course.getDuration(), course.getStudentList(), course.getAssignmentList(), course.getAnnouncementList(), course.getQuizList(), course.getLessonList(), course.getQuestionList());
+            Course newCourse = new Course(CourseDB.courseList.size() + 1, course.getTitle(), course.getDescription(), course.getDuration(), course.getStudentList(), course.getAssignmentList(), course.getAnnouncementList(), course.getQuizList(), course.getLessonList(), course.getInstructorList());
             CourseDB.courseList.add(newCourse);
             return newCourse;
         }
@@ -60,13 +63,13 @@ public class CourseRepository {
                 if (course.getLessonList() != null) {
                     c.setLessonList(course.getLessonList());
                 }
-                if (course.getQuestionList() != null) {
-                    c.setQuestionList(course.getQuestionList());
+                if (course.getInstructorList() != null) {
+                    c.setInstructorList(course.getInstructorList());
                 }
                 return c;
             }
         }
-        throw new Exception("Course not found");
+        throw new HttpNotFoundException("Course not found");
     }
 
     public void deleteCourse(Integer id) {
@@ -78,23 +81,46 @@ public class CourseRepository {
         }
     }
 
-    public String joinCourse (Integer courseId, Integer studentId) throws Exception {
+    public String joinStudentCourse (Integer courseId, Integer studentId) throws Exception {
         Course course = getCourseById(courseId);
         if (course.getStudentList().contains(studentId)) {
-            throw new Exception("Student already enrolled in course");
+            throw new HttpBadRequestException("Student already enrolled in course");
         }
         course.getStudentList().add(studentId);
         return "Student enrolled in course";
     }
 
-    public String leaveCourse (Integer courseId, Integer studentId) throws Exception {
+    public String leaveStudentCourse (Integer courseId, Integer studentId) throws Exception {
         Course course = getCourseById(courseId);
         if (!course.getStudentList().contains(studentId)) {
-            throw new Exception("Student not enrolled in course");
+            throw new HttpNotFoundException("Student not enrolled in course");
         }
         course.getStudentList().remove(studentId);
         return "Student removed from course";
     }
+
+    public String joinInstructorCourse (Integer courseId, Integer instructorId) throws Exception {
+        Course course = getCourseById(courseId);
+        if (course.getInstructorList().contains(instructorId)) {
+            throw new HttpBadRequestException("Instructor already enrolled in course");
+        }
+        course.getInstructorList().add(instructorId);
+        return "Instructor enrolled in course";
+    }
+
+    public String leaveInstructorCourse (Integer courseId, Integer instructorId) throws Exception {
+        Course course = getCourseById(courseId);
+        if (!course.getInstructorList().contains(instructorId)) {
+            throw new HttpNotFoundException("Instructor not enrolled in course");
+        }
+        course.getInstructorList().remove(instructorId);
+        return "Instructor removed from course";
+    }
+
+    public List<Integer> getInstructorList(Integer courseId) throws Exception {
+        Course course = getCourseById(courseId);
+        return course.getInstructorList();
+
     public List<Integer> getStudents(Integer courseId) throws Exception {
         Course course = getCourseById(courseId);
         return course.getStudentList();
