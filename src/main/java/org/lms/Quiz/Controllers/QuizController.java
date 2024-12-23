@@ -74,6 +74,20 @@ public class QuizController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
+    @GetMapping(value = "/getAllAttempts")
+    public ResponseEntity<ResponseObject> getAllAttempts(){
+        return ResponseEntity.ok(_service.getAllAttempts());
+    }
+
+    @GetMapping(value = "/getAttempts/{userId}")
+    public ResponseEntity<ResponseObject> getStudentAttempt(@PathVariable int userId){
+        ResponseObject result = _service.getStudentAttempt(userId);
+        if(result.data != null)
+            return ResponseEntity.ok(result);
+        return ResponseEntity.badRequest().body(result);
+    }
+
     @PutMapping(value = "/submit", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseObject> submit(@RequestBody QuizAttempt attempt) throws InterruptedException, ExecutionException{
         ResponseObject result = _service.submitQuizAttempt(attempt).get();
