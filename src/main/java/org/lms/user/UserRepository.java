@@ -12,7 +12,7 @@ import org.lms.user.User;
 @Repository
 public class UserRepository {
 
-    User createUser (UserDTO user) throws Exception{
+    public User createUser (UserDTO user) throws Exception{
         User userCreated = new User();
         userCreated.setFirstName(user.getFirstName());
         userCreated.setLastName(user.getLastName());
@@ -37,7 +37,7 @@ public class UserRepository {
         }
     };
 
-    User findUserById(Integer id) throws Exception{
+    public User findUserById(Integer id) throws Exception{
         User userReturned = UserDB.Users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
         if (userReturned == null) {
             throw new HttpNotFoundException("User not found");
@@ -47,7 +47,7 @@ public class UserRepository {
         }
     };
 
-    User findUserByEmail(String email) throws Exception{
+    public User findUserByEmail(String email) throws Exception{
         User userReturned = UserDB.Users.stream().filter(user -> user.getEmail().equals(email)).findFirst().orElse(null);
         if (userReturned == null) {
             throw new HttpNotFoundException("User not found");
@@ -57,11 +57,11 @@ public class UserRepository {
         }
     };
 
-    ArrayList<User> findAll() {
+    public ArrayList<User> findAll() {
         return UserDB.Users;
     }
 
-    User updateUserById (Integer id, UserDTO user) throws Exception {
+    public User updateUserById (Integer id, UserDTO user) throws Exception {
         User userToUpdate = UserDB.Users.stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
         if (userToUpdate != null) {
             if (user.getFirstName() != null) {
@@ -86,12 +86,12 @@ public class UserRepository {
         return userToUpdate;
     };
 
-    void deleteUserById (Integer id){
+    public void deleteUserById(Integer id){
         User userToDelete = UserDB.Users.stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
         UserDB.Users.remove(userToDelete);
     };
 
-    String getEmailById (Integer id){
+    public String getEmailById (Integer id){
         User user = UserDB.Users.stream().filter(u -> u.getId().equals(id)).findFirst().orElse(null);
         if (user == null) {
             return null;
