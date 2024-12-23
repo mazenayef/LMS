@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Repository
 public class LessonRepository {
@@ -18,7 +19,11 @@ public class LessonRepository {
         this.courseRepository = courseRepository;
     }
     // lists for testing purposes
-    private static List<Lesson> lessons = new ArrayList<>();
+    private static List<Lesson> lessons = new ArrayList<>(){
+        {
+            add(new Lesson(1, "Lesson 1", LocalDateTime.now(), LocalDateTime.now().plusHours(1), 1, List.of(1, 3)));
+        }
+    };
     private  static List<Integer> attendedStudents = new ArrayList<>();
     private static List<Integer> allStudnets = new ArrayList<>();
     private static Integer id = 0;

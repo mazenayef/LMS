@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.lms.shared.controllers.GlobalExceptionHandler;
 import org.lms.shared.models.CommonResponse;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -20,6 +21,10 @@ public class CommonResponseAdvice implements ResponseBodyAdvice<Object> {
 
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+		if (returnType.getContainingClass().isAnnotationPresent(ExcludeFromCommonResponse.class) ||
+				returnType.hasMethodAnnotation(ExcludeFromCommonResponse.class)) {
+			return false;
+		}
 		return true;
 	}
 
