@@ -13,7 +13,7 @@ public class Lesson {
     private LocalDateTime endDate;
     private String OTP;
     private LocalDateTime OTPTime;
-    private List<User> students;
+    private List<Integer> students;
     private Integer courseId;
 
     public Lesson() {
@@ -69,11 +69,11 @@ public class Lesson {
         this.OTP = OTP;
     }
 
-    public List<User> getStudents() {
+    public List<Integer> getStudents() {
         return students;
     }
 
-    public void setStudents(List<User> students) {
+    public void setStudents(List<Integer> students) {
         this.students = students;
     }
 

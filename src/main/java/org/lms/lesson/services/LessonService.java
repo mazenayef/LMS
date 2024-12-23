@@ -3,6 +3,7 @@ import org.lms.lesson.DTOs.CreateLessonDTO;
 import org.lms.lesson.DTOs.OTPGet;
 import org.lms.lesson.models.Lesson;
 import org.lms.lesson.repositories.LessonRepository;
+import org.lms.shared.exceptions.HttpBadRequestException;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableScheduling
@@ -18,6 +20,7 @@ import java.util.List;
 public class LessonService {
 
     private final LessonRepository lessonRepository;
+
     private class OTPService {
         private String OTP;
         private Integer lessonId;
@@ -63,11 +66,11 @@ public class LessonService {
 
         if (lessons != null) {
             for (Lesson lesson : lessons) {
-                if (lesson.getStartDate().isBefore(LocalDateTime.now().plusMinutes(1)) && lesson.getOTP() == null) {
+                if (lesson.getStartDate().isBefore(LocalDateTime.now().plusMinutes(2)) && lesson.getOTP() == null) {
                     try {
                         generateOTP(lesson.getId());
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        throw new HttpBadRequestException("Error generating OTP");
                     }
                 }
             }
@@ -108,19 +111,42 @@ public class LessonService {
     public void attendStudent(Integer lessonId, Integer studentId , OTPGet submittedOTP) throws Exception {
         Lesson lesson = lessonRepository.getLessonById(lessonId);
         if (lesson.getOTP() == null) {
-            throw new Exception("OTP not generated");
+            throw new HttpBadRequestException("OTP not generated");
         }
         if (!submittedOTP.OTP.equals(lesson.getOTP())) {
-            throw new Exception("Invalid OTP");
+            throw new HttpBadRequestException("Invalid OTP");
         }
         if (submittedOTP.OTPTime.isAfter(lesson.getOTPTime())) {
-            throw new Exception("OTP expired");
+            throw new HttpBadRequestException("OTP expired");
         }
         if (!lesson.getStartDate().isBefore(LocalDateTime.now())) {
-            throw new Exception("Lesson not started yet");
+            throw new HttpBadRequestException("Lesson not started yet");
         }
         lessonRepository.attendStudent(lessonId, studentId);
 
+
+    }
+    public List<Integer> getLessonOfCourse(Integer courseId) {
+        List<Lesson> lessons = lessonRepository.getLessons();
+        List<Integer> lessonIds = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            if (lesson.getCourseId().equals(courseId)) {
+                lessonIds.add(lesson.getId());
+            }
+        }
+        return lessonIds;
+    }
+    public List<Integer> getStudentAttendance(Integer courseID , Integer studentId) throws Exception {
+        List<Lesson> lessons = lessonRepository.getLessons();
+        List<Integer> attendedLessons = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            if (lesson.getCourseId().equals(courseID)) {
+                if (lesson.getStudents().contains(studentId)) {
+                    attendedLessons.add(lesson.getId());
+                }
+            }
+        }
+        return attendedLessons;
 
     }
 
