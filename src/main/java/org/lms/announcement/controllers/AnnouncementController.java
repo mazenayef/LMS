@@ -33,7 +33,7 @@ public class AnnouncementController {
 
     }
 
-//    @HasRole({"INSTRUCTOR"})
+    @HasRole({"INSTRUCTOR"})
     @PostMapping("/{id}/attachments")
     public ResponseEntity<MediaFile> addAttachment(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAttachment(Integer.parseInt(id), file));
