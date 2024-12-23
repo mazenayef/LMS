@@ -23,11 +23,11 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
         this.mediaFilesService = mediaFilesService;
     }
-    public Announcement addAnnouncement(AnnouncementDTO announcementDTO , String courseId) {
+    public Announcement addAnnouncement(AnnouncementDTO announcementDTO , String courseId)throws Exception {
         return announcementRepository.create(announcementDTO , Integer.parseInt(courseId));
     }
-    public List<Announcement> getAllAnnouncements() {
-        return announcementRepository.findAll();
+    public List<Announcement> getAllAnnouncements(Integer courseId) {
+        return announcementRepository.findAll(courseId);
     }
     public Announcement getAnnouncementById(Integer id) throws Exception {
         return announcementRepository.findOne(id);

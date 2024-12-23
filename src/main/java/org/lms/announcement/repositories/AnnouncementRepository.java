@@ -2,6 +2,8 @@ package org.lms.announcement.repositories;
 
 import org.lms.announcement.dtos.AnnouncementDTO;
 import org.lms.announcement.models.Announcement;
+import org.lms.course.Course;
+import org.lms.course.CourseRepository;
 import org.lms.shared.exceptions.HttpNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -11,16 +13,31 @@ import java.util.List;
 
 @Repository
 public class AnnouncementRepository {
+    private CourseRepository courseRepository;
     private static List<Announcement> announcements = new ArrayList<>();
     private static Integer id = 0;
+    AnnouncementRepository(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
-    public Announcement create(AnnouncementDTO announcementDTO , Integer courseId) {
+    public Announcement create(AnnouncementDTO announcementDTO , Integer courseId) throws Exception {
+        Course course = courseRepository.getCourseById(courseId);
+
         Announcement announcement = new Announcement(id++, announcementDTO.getTitle(), announcementDTO.getDescription(),courseId ,null);
         announcements.add(announcement);
+        List<Integer> announcementList = course.getAnnouncementList();
+        announcementList.add(announcement.getId());
+        course.setAnnouncementList(announcementList);
         return announcement;
     }
 
-    public List<Announcement> findAll() {
+    public List<Announcement> findAll(Integer courseId) {
+        List<Announcement> announcements = new ArrayList<>();
+        for (Announcement announcement : this.announcements) {
+            if (announcement.getCourseId().equals(courseId)) {
+                announcements.add(announcement);
+            }
+        }
         return announcements;
     }
     public Announcement findOne(Integer id) throws Exception {
