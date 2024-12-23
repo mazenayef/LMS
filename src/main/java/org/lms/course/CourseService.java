@@ -51,4 +51,8 @@ public class CourseService {
     public List<Integer> getInstructorList(Integer courseId) throws Exception {
         return courseRepository.getInstructorList(courseId);
     }
+
+    public List<Integer> getStudents(Integer courseId) throws Exception {
+        return courseRepository.getStudents(courseId);
+    }
 }

@@ -29,6 +29,16 @@ public class Lesson {
         this.courseId = courseId;
     }
 
+    public Lesson(Integer id, String name, LocalDateTime startDate ,LocalDateTime endDate, Integer courseId, List<Integer> students) {
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.OTP = null;
+        this.students = students;
+        this.courseId = courseId;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -120,7 +120,8 @@ public class CourseRepository {
     public List<Integer> getInstructorList(Integer courseId) throws Exception {
         Course course = getCourseById(courseId);
         return course.getInstructorList();
-
+    }
+  
     public List<Integer> getStudents(Integer courseId) throws Exception {
         Course course = getCourseById(courseId);
         return course.getStudentList();
