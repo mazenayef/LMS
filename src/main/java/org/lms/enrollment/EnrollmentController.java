@@ -1,11 +1,15 @@
 package org.lms.enrollment;
 
+import org.lms.authentication.interceptors.CurrentUser;
+import org.lms.authentication.interceptors.HasRole;
 import org.lms.course.CourseRepository;
+import org.lms.user.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/course/{courseId}/enrollment")
+@RequestMapping("/courses/{courseId}/enrollment")
 public class EnrollmentController {
     private EnrollmentService enrollmentService;
 
@@ -18,23 +22,34 @@ public class EnrollmentController {
         return "Enrollment Controller works!";
     }
 
-    @PostMapping("/join")
-    public ResponseEntity<String> joinCourse(@PathVariable("courseId") Integer courseId) throws Exception{
-        Integer studentId = 55;
-        try {
-            return ResponseEntity.ok().body(enrollmentService.joinCourse(courseId, studentId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+    @PatchMapping("/join")
+    @HasRole({"STUDENT", "INSTRUCTOR"})
+    public ResponseEntity<StringDTO> joinCourse(@PathVariable("courseId") String courseId, @CurrentUser User currentUser) throws Exception{
+        Integer userId = currentUser.getId();
+        Integer courseIdInt = Integer.parseInt(courseId);
+        if (currentUser.getRole() == User.Role.INSTRUCTOR) {
+            StringDTO result = new StringDTO(enrollmentService.joinInstructorCourse(courseIdInt, userId));
+            return ResponseEntity.ok().body(result);
         }
+        else if (currentUser.getRole() == User.Role.STUDENT) {
+            StringDTO result = new StringDTO(enrollmentService.joinStudentCourse(courseIdInt, userId));
+            return ResponseEntity.ok().body(result);
+        }
+        return null;
     }
 
-    @PostMapping("/leave")
-    public ResponseEntity<String> leaveCourse(@PathVariable("courseId") Integer courseId) throws Exception{
-        Integer studentId = 55;
-        try {
-            return ResponseEntity.ok().body(enrollmentService.leaveCourse(courseId, studentId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+    @PatchMapping("/leave")
+    @HasRole({"STUDENT", "INSTRUCTOR"})
+    public ResponseEntity leaveCourse(@PathVariable("courseId") String courseId, @CurrentUser User currentUser) throws Exception {
+        Integer userId = currentUser.getId();
+        Integer courseIdInt = Integer.parseInt(courseId);
+        if (currentUser.getRole() == User.Role.INSTRUCTOR) {
+            StringDTO result = new StringDTO(enrollmentService.leaveInstructorCourse(courseIdInt, userId));
+            return ResponseEntity.ok().body(result);
+        } else if (currentUser.getRole() == User.Role.STUDENT) {
+            StringDTO reult = new StringDTO(enrollmentService.leaveStudentCourse(courseIdInt, userId));
+            return ResponseEntity.ok().body(reult);
         }
+        return null;
     }
 }

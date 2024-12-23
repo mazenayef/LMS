@@ -13,7 +13,7 @@ public class Lesson {
     private LocalDateTime endDate;
     private String OTP;
     private LocalDateTime OTPTime;
-    private List<User> students;
+    private List<Integer> students;
     private Integer courseId;
 
     public Lesson() {
@@ -26,6 +26,16 @@ public class Lesson {
         this.endDate = endDate;
         this.OTP = null;
         this.students = new ArrayList<>();
+        this.courseId = courseId;
+    }
+
+    public Lesson(Integer id, String name, LocalDateTime startDate ,LocalDateTime endDate, Integer courseId, List<Integer> students) {
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.OTP = null;
+        this.students = students;
         this.courseId = courseId;
     }
 
@@ -69,11 +79,11 @@ public class Lesson {
         this.OTP = OTP;
     }
 
-    public List<User> getStudents() {
+    public List<Integer> getStudents() {
         return students;
     }
 
-    public void setStudents(List<User> students) {
+    public void setStudents(List<Integer> students) {
         this.students = students;
     }
 

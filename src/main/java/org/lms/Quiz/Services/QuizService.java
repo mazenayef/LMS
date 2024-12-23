@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.Pair;
+import org.lms.Quiz.DTOs.QuizDTOs.QuizPerformance;
 import org.lms.Quiz.DTOs.QuizDTOs.QuizSet;
 import org.lms.Quiz.Models.Difficulty;
 import org.lms.Quiz.Models.Question;
@@ -184,10 +185,13 @@ public class QuizService {
             .findFirst()
             .orElse(null);
     
+            if(QuizAttemptRepository.attempts.stream().filter(x -> x.getQuizId() == quizAttempt.getQuizId() && x.getStudentId() == quizAttempt.getStudentId() && x.getSubmitted()).count() > 0)
+                return new ResponseObject("already submited", null);
+
             if(quiz == null)
                 return new ResponseObject("could not find the quiz", null);
     
-            if(quizAttempt.getCreatedAt().plusMinutes(quiz.getDuration()).isBefore(LocalDateTime.now()))
+            if(quizAttempt.getCreatedAt().plusMinutes(quiz.getDuration()).isAfter(LocalDateTime.now()))
                 return new ResponseObject("deadline is due", null);
     
             if(quizAttempt.getSubmitted())
@@ -224,24 +228,35 @@ public class QuizService {
         return future;
     }
 
+    public ResponseObject getAllAttempts(){
+        return new ResponseObject("normalized", QuizAttemptRepository.attempts);
+    }
+
+    public ResponseObject getStudentAttempt(int userId){
+        List<QuizAttempt> attempt = QuizAttemptRepository.attempts.stream().filter(x -> x.getStudentId() == userId).toList();
+        if(attempt != null)
+            return new ResponseObject("normalized", attempt);
+        return new ResponseObject("not found", null);
+    }
+
     public ResponseObject getStudentGrade(int id){
-        int countQuizzes = 0;
-        int countQuestions = 0;
-        int correctAnswers = 0;
-        
+        QuizPerformance performance = new QuizPerformance();
+
         for(QuizAttempt attempt : QuizAttemptRepository.attempts){
             if(attempt.getStudentId() == id){
-                countQuestions += attempt.getAnswers().size();
-                correctAnswers += attempt.getGrade();
-                countQuizzes++;
+                performance.countQuestions += attempt.getAnswers().size();
+                performance.correctAnswers += attempt.getGrade();
+                performance.countQuizzes++;
             }
         }
 
-        if(countQuizzes == 0 || correctAnswers == -1)
+        if(performance.countQuizzes == 0 || performance.correctAnswers == -1)
             return new ResponseObject("student didnt take any quizzes yet", null);
 
+        performance.persentage = (int)((float)((float)performance.correctAnswers / (float)performance.countQuestions) * 100);
         return new ResponseObject(
-            "Student " + id + " took " + countQuizzes + " and answered " + correctAnswers + " from " + countQuestions,
-            (correctAnswers / countQuestions * 100));
+            "Student " + id + " took " + performance.countQuizzes + " and answered " + performance.correctAnswers + " from " + performance.countQuestions,
+            performance
+            );
     }
 }

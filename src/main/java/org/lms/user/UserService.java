@@ -34,4 +34,8 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    public String getEmailById(Integer id) throws Exception {
+        return userRepository.getEmailById(id);
+    }
 }
