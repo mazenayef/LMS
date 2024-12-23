@@ -28,9 +28,6 @@ public class CourseDB {
                 }
             }, new ArrayList<Integer>() {
                 {
-                    add(1);
-                    add(2);
-                    add(3);
                 }
             }, new ArrayList<Integer>() {
                 {
