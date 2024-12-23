@@ -2,7 +2,9 @@ package org.lms.authentication.interceptors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,8 @@ public class RoleAspect {
 	@Autowired
 	private HttpServletResponse response;
 
-	@Before("@annotation(hasRole)")
-	public void checkRole(HasRole hasRole) throws Exception {
+	@Around("@annotation(hasRole)")
+	public Object checkRole(ProceedingJoinPoint joinPoint, HasRole hasRole) throws Throwable {
 		boolean hasRequiredRole = false;
 		String role = (String) request.getAttribute("userRole");
 
@@ -30,11 +32,11 @@ public class RoleAspect {
 		}
 
 		if (!hasRequiredRole) {
-			response.setStatus(HttpStatus.FORBIDDEN.value());
-			response.setContentType("application/json");
-			response.getWriter().write("{\"error\": \"Forbidden\"}");
+			response.sendError(HttpStatus.FORBIDDEN.value(), "Forbidden");
 			response.getWriter().flush();
-			return;
+			return null;
 		}
+
+		return joinPoint.proceed();
 	}
 }
