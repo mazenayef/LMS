@@ -3,7 +3,7 @@ package org.lms.announcement.services;
 import lombok.Getter;
 import lombok.Setter;
 import org.lms.announcement.dtos.AnnouncementDTO;
-import org.lms.announcement.models.Annoucement;
+import org.lms.announcement.models.Announcement;
 import org.lms.announcement.repositories.AnnouncementRepository;
 import org.lms.mediafiles.models.MediaFile;
 import org.lms.mediafiles.services.MediaFilesService;
@@ -23,16 +23,16 @@ public class AnnouncementService {
         this.announcementRepository = announcementRepository;
         this.mediaFilesService = mediaFilesService;
     }
-    public Annoucement addAnnouncement(AnnouncementDTO announcementDTO , String courseId) {
+    public Announcement addAnnouncement(AnnouncementDTO announcementDTO , String courseId) {
         return announcementRepository.create(announcementDTO , Integer.parseInt(courseId));
     }
-    public List<Annoucement> getAllAnnouncements() {
+    public List<Announcement> getAllAnnouncements() {
         return announcementRepository.findAll();
     }
-    public Annoucement getAnnouncementById(Integer id) throws Exception {
+    public Announcement getAnnouncementById(Integer id) throws Exception {
         return announcementRepository.findOne(id);
     }
-    public Annoucement updateAnnouncement(Integer id, AnnouncementDTO announcementDTO) throws Exception {
+    public Announcement updateAnnouncement(Integer id, AnnouncementDTO announcementDTO) throws Exception {
         return announcementRepository.update(id, announcementDTO);
     }
     public void deleteAnnouncement(Integer id) throws Exception {
@@ -40,7 +40,7 @@ public class AnnouncementService {
     }
 
     public MediaFile addAttachment(Integer announcementId, MultipartFile file) throws Exception {
-        Annoucement announcement = this.announcementRepository.findOne(announcementId);
+        Announcement announcement = this.announcementRepository.findOne(announcementId);
         MediaFile mediaFile = this.mediaFilesService.createMedia(file);
         this.announcementRepository.addAttachment(announcementId, mediaFile.getId());
 
@@ -48,7 +48,7 @@ public class AnnouncementService {
     }
 
     public List<MediaFile> getAttachments(Integer announcementId) throws Exception {
-        Annoucement announcement = this.announcementRepository.findOne(announcementId);
+        Announcement announcement = this.announcementRepository.findOne(announcementId);
         List<MediaFile> mediaFiles = new ArrayList<>();
         List<Integer> attachments = announcement.getMediaFileList();
         for (int i = 0; i < attachments.size(); i++) {
