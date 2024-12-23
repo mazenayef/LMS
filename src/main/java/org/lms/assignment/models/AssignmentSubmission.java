@@ -5,8 +5,8 @@ import java.util.List;
 import org.lms.user.User;
 import lombok.Getter;
 import lombok.Setter;
-@Getter
-@Setter
+
+
 public class AssignmentSubmission {
     static private Integer count=0;
     private Integer id;
@@ -36,68 +36,69 @@ public class AssignmentSubmission {
     }
     public void addMedia(Integer id){
         this.media.add(id);
-    } 
-    // public static Integer getCount() {
-    //     return count;
-    // }
+    }
 
-    // public static void setCount(Integer count) {
-    //     AssignmentSubmission.count = count;
-    // }
+    public static Integer getCount() {
+        return count;
+    }
 
-    // public Integer getId() {
-    //     return id;
-    // }
+    public static void setCount(Integer count) {
+        AssignmentSubmission.count = count;
+    }
 
-    // public void setId(Integer id) {
-    //     this.id = id;
-    // }
+    public Integer getId() {
+        return id;
+    }
 
-    // public String getCreatedAt() {
-    //     return createdAt;
-    // }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    // public void setCreatedAt(String createdAt) {
-    //     this.createdAt = createdAt;
-    // }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-    // public MediaFileResourceDto getMedia() {
-    //     return media;
-    // }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-    // public void setMedia(MediaFileResourceDto media) {
-    //     this.media = media;
-    // }
+    public List<Integer> getMedia() {
+        return media;
+    }
 
-    // public User getStudent() {
-    //     return student;
-    // }
+    public void setMedia(List<Integer> media) {
+        this.media = media;
+    }
 
-    // public void setStudent(User student) {
-    //     this.student = student;
-    // }
+    public User getStudent() {
+        return student;
+    }
 
-    // public Integer getAssignmentID() {
-    //     return assignmentID;
-    // }
+    public void setStudent(User student) {
+        this.student = student;
+    }
 
-    // public void setAssignmentID(Integer assignmentID) {
-    //     this.assignmentID = assignmentID;
-    // }
+    public Integer getAssignmentID() {
+        return assignmentID;
+    }
 
-    // public double getGrade() {
-    //     return grade;
-    // }
+    public void setAssignmentID(Integer assignmentID) {
+        this.assignmentID = assignmentID;
+    }
 
-    // public void setGrade(double grade) {
-    //     this.grade = grade;
-    // }
+    public double getGrade() {
+        return grade;
+    }
 
-    // public boolean isCorrected() {
-    //     return corrected;
-    // }
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
 
-    // public void setCorrected(boolean corrected) {
-    //     this.corrected = corrected;
-    // }
+    public boolean isCorrected() {
+        return corrected;
+    }
+
+    public void setCorrected(boolean corrected) {
+        this.corrected = corrected;
+    }
 }

@@ -5,8 +5,7 @@ import org.lms.mediafiles.dtos.MediaFileResourceDto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 public class Assignment {
     static private Integer count=0;
     private Integer id;
@@ -28,67 +27,68 @@ public class Assignment {
     public void addMedia(Integer id){
         this.media.add(id);
     }
-    // public static Integer getCount() {
-    //     return count;
-    // }
 
-    // public static void setCount(Integer count) {
-    //     Assignment.count = count;
-    // }
+    public static Integer getCount() {
+        return count;
+    }
 
-    // public Integer getId() {
-    //     return id;
-    // }
+    public static void setCount(Integer count) {
+        Assignment.count = count;
+    }
 
-    // public void setId(Integer id) {
-    //     this.id = id;
-    // }
+    public Integer getId() {
+        return id;
+    }
 
-    // public String getTitle() {
-    //     return title;
-    // }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    // public void setTitle(String title) {
-    //     this.title = title;
-    // }
+    public String getTitle() {
+        return title;
+    }
 
-    // public String getDescription() {
-    //     return description;
-    // }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    // public void setDescription(String description) {
-    //     this.description = description;
-    // }
+    public String getDescription() {
+        return description;
+    }
 
-    // public String getDueDate() {
-    //     return dueDate;
-    // }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    // public void setDueDate(String dueDate) {
-    //     this.dueDate = dueDate;
-    // }
+    public String getDueDate() {
+        return dueDate;
+    }
 
-    // public MediaFileResourceDto getMedia() {
-    //     return media;
-    // }
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
 
-    // public void setMedia(MediaFileResourceDto media) {
-    //     this.media = media;
-    // }
+    public List<Integer> getMedia() {
+        return media;
+    }
 
-    // public Integer getCourseID() {
-    //     return courseID;
-    // }
+    public void setMedia(List<Integer> media) {
+        this.media = media;
+    }
 
-    // public void setCourseID(Integer courseID) {
-    //     this.courseID = courseID;
-    // }
+    public Integer getCourseID() {
+        return courseID;
+    }
 
-    // public List<AssignmentSubmission> getAssignmentSubmation() {
-    //     return assignmentSubmation;
-    // }
+    public void setCourseID(Integer courseID) {
+        this.courseID = courseID;
+    }
 
-    // public void setAssignmentSubmation(List<AssignmentSubmission> assignmentSubmation) {
-    //     this.assignmentSubmation = assignmentSubmation;
-    // }
+    public List<AssignmentSubmission> getAssignmentSubmation() {
+        return assignmentSubmation;
+    }
+
+    public void setAssignmentSubmation(List<AssignmentSubmission> assignmentSubmation) {
+        this.assignmentSubmation = assignmentSubmation;
+    }
 }

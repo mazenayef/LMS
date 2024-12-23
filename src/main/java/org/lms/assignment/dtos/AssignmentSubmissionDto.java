@@ -2,12 +2,7 @@ package org.lms.assignment.dtos;
 
 
 
-import lombok.Getter;
-import lombok.Setter;
 
-
-@Getter
-@Setter
 public class AssignmentSubmissionDto {
     private Integer id;
     private String createdAt;
@@ -20,64 +15,35 @@ public class AssignmentSubmissionDto {
         this.id=id;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
-    // public String getCreatedAt() {
-    //     return createdAt;
-    // }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    // public void setCreatedAt(String createdAt) {
-    //     this.createdAt = createdAt;
-    // }
-
-    // public MediaFileResourceDto getMedia() {
-    //     return media;
-    // }
-
-    // public void setMedia(MediaFileResourceDto media) {
-    //     this.media = media;
-    // }
-
-    // public double getGrade() {
-    //     return grade;
-    // }
-
-    // public void setGrade(double grade) {
-    //     this.grade = grade;
-    // }
-
-    // public boolean isCorrected() {
-    //     return corrected;
-    // }
-
-    // public void setCorrected(boolean corrected) {
-    //     this.corrected = corrected;
-    // }
-    // public void setId(Integer id){
-    //     this.id=id;
-    // }
-    public String getCreatedAt(){
+    public String getCreatedAt() {
         return createdAt;
     }
-    public MediaFileResourceDto getMedia(){
-        return media;
-    }
-    public double getGrade(){
-        return grade;
-    }
-    public boolean isCorrected(){
-        return corrected;
-    }
-    public void setCreatedAt(String createdAt){
-        this.createdAt=createdAt;
-    }
-    public void setMedia(MediaFileResourceDto media){
-        this.media=media;
-    }
-    public void setGrade(double grade){
-        this.grade=grade;
-    }
-    public void setCorrected(boolean corrected){
-        this.corrected=corrected;
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
+    public double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public boolean isCorrected() {
+        return corrected;
+    }
+
+    public void setCorrected(boolean corrected) {
+        this.corrected = corrected;
+    }
 }

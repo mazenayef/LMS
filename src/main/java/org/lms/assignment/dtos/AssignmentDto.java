@@ -7,8 +7,7 @@ import org.lms.assignment.models.AssignmentSubmission;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 public class AssignmentDto {
     private String title;
     private String description;
@@ -22,46 +21,44 @@ public class AssignmentDto {
         this.id=id;
     }
 
-    // public String getTitle() {
-    //     return title;
-    // }
+    public String getTitle() {
+        return title;
+    }
 
-    // public void setTitle(String title) {
-    //     this.title = title;
-    // }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    // public String getDescription() {
-    //     return description;
-    // }
+    public String getDescription() {
+        return description;
+    }
 
-    // public void setDescription(String description) {
-    //     this.description = description;
-    // }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    // public String getDueDate() {
-    //     return dueDate;
-    // }
+    public String getDueDate() {
+        return dueDate;
+    }
 
-    // public void setDueDate(String dueDate) {
-    //     this.dueDate = dueDate;
-    // }
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
 
-    // public MediaFileResourceDto getMedia() {
-    //     return media;
-    // }
+    public List<AssignmentSubmission> getAssignmentSubmissition() {
+        return assignmentSubmissition;
+    }
 
-    // public void setMedia(MediaFileResourceDto media) {
-    //     this.media = media;
-    // }
+    public void setAssignmentSubmissition(List<AssignmentSubmission> assignmentSubmissition) {
+        this.assignmentSubmissition = assignmentSubmissition;
+    }
 
-    // public List<AssignmentSubmission> getAssignmentSubmissition() {
-    //     return assignmentSubmissition;
-    // }
+    public Integer getId() {
+        return id;
+    }
 
-    // public void setAssignmentSubmation(List<AssignmentSubmission> assignmentSubmissition) {
-    //     this.assignmentSubmissition = assignmentSubmissition;
-    // }
-    // public void setId(Integer id){
-    // }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }
 
