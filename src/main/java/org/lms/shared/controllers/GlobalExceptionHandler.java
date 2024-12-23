@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(HttpNotFoundException.class)
 	public ResponseEntity<CommonResponse> handleNotFoundException(HttpNotFoundException e) {
 		exceptionMessageHolder.set(e.getMessage());
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CommonResponse(404, null, e.getMessage()));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	public static String getExceptionMessage() {
