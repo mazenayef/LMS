@@ -95,6 +95,7 @@ public class CourseRepository {
         course.getStudentList().remove(studentId);
         return "Student removed from course";
     }
+
     public List<Integer> getStudents(Integer courseId) throws Exception {
         Course course = getCourseById(courseId);
         return course.getStudentList();
