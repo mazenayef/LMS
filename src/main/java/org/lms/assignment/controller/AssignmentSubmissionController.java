@@ -45,6 +45,7 @@ public ResponseEntity<List<MediaFile>> getAttachments(@PathVariable ("submission
     return ResponseEntity.ok(assignmentSubmissionServices.getAttachments(Integer.parseInt(submissionID)));
 }
 
+@HasRole({"INSTRUCTOR"})
 @PostMapping("/{submissionID}/attachments")
 public ResponseEntity<MediaFile> addAttachment(@PathVariable ("submissionID")String submissionID,@RequestParam ("file")MultipartFile file) throws Exception {
     return ResponseEntity.ok(assignmentSubmissionServices.addAttachment(Integer.parseInt(submissionID), file));
