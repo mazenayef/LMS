@@ -1,14 +1,13 @@
 package org.lms.authentication.configurations;
 
 import org.lms.authentication.interceptors.AuthInterceptor;
-import org.lms.authentication.interceptors.CurrentUserArgumentResolver;
+import org.lms.authentication.annotations.CurrentUserArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration

@@ -1,9 +1,7 @@
 package org.lms.course;
 
-import jdk.jfr.ContentType;
-import org.apache.coyote.Request;
-import org.lms.authentication.interceptors.CurrentUser;
-import org.lms.authentication.interceptors.HasRole;
+import org.lms.authentication.annotations.CurrentUser;
+import org.lms.authentication.annotations.HasRole;
 import org.lms.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

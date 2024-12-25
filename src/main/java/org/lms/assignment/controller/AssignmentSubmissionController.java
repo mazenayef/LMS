@@ -5,13 +5,11 @@ package org.lms.assignment.controller;
 
 import java.util.List;
 
-import javax.mail.Multipart;
-
 import org.lms.assignment.dtos.AssignmentSubmissionDto;
 import org.lms.assignment.models.AssignmentSubmission;
 import org.lms.assignment.services.AssignmentSubmissionServices;
-import org.lms.authentication.interceptors.CurrentUser;
-import org.lms.authentication.interceptors.HasRole;
+import org.lms.authentication.annotations.CurrentUser;
+import org.lms.authentication.annotations.HasRole;
 import org.lms.mediafiles.models.MediaFile;
 import org.lms.shared.exceptions.HttpBadRequestException;
 import org.lms.user.User;

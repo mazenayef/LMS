@@ -1,16 +1,13 @@
 package org.lms.user;
 
-import org.lms.Models.ResponseObject;
-import org.lms.authentication.interceptors.CurrentUser;
-import org.lms.authentication.interceptors.HasRole;
+import org.lms.authentication.annotations.CurrentUser;
+import org.lms.authentication.annotations.HasRole;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.lms.user.UserDB;
 
 // Solved the issue by adding exclude = {DataSourceAutoConfiguration.class } to the @SpringBootApplication annotation
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })

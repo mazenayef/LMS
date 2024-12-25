@@ -1,18 +1,15 @@
 package org.lms.authentication.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.lms.authentication.dtos.LoginDto;
 import org.lms.authentication.dtos.TokenDto;
-import org.lms.authentication.interceptors.CurrentUser;
-import org.lms.authentication.interceptors.HasRole;
+import org.lms.authentication.annotations.CurrentUser;
 import org.lms.authentication.services.AuthenticationService;
+import org.lms.shared.annotations.StatusCode;
+import org.lms.shared.annotations.ResponseStatusMessage;
 import org.lms.user.User;
 import org.lms.user.UserDTO;
 import org.springframework.http.*;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 
 @RestController
 @RequestMapping("/auth")
@@ -48,8 +45,10 @@ public class AuthenticationController {
 		return ResponseEntity.status(HttpStatus.CREATED).header(HttpHeaders.SET_COOKIE, cookie.toString()).body(token);
 	}
 
+	@StatusCode(HttpStatus.OK)
+	@ResponseStatusMessage("Profile retrieved successfully")
 	@GetMapping("/profile")
-	public ResponseEntity<User> getProfile(@CurrentUser User currentUser, Model model) {
-		return ResponseEntity.ok().body(currentUser);
+	public User getProfile(@CurrentUser User currentUser) {
+		return currentUser;
 	}
 }

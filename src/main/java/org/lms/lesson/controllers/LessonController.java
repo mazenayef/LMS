@@ -1,7 +1,7 @@
 package org.lms.lesson.controllers;
 
-import org.lms.authentication.interceptors.CurrentUser;
-import org.lms.authentication.interceptors.HasRole;
+import org.lms.authentication.annotations.CurrentUser;
+import org.lms.authentication.annotations.HasRole;
 import org.lms.lesson.DTOs.CreateLessonDTO;
 import org.lms.lesson.DTOs.OTPGet;
 import org.lms.lesson.DTOs.OTPValue;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController

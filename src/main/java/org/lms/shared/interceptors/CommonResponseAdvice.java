@@ -1,18 +1,16 @@
 package org.lms.shared.interceptors;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.lms.shared.annotations.ExcludeFromCommonResponse;
 import org.lms.shared.controllers.GlobalExceptionHandler;
 import org.lms.shared.models.CommonResponse;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpInputMessage;
-import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -37,6 +35,12 @@ public class CommonResponseAdvice implements ResponseBodyAdvice<Object> {
 			return new CommonResponse(body, exceptionMessage);
 		}
 
-		return new CommonResponse(body,"Request successful");
+		String statusMessage = (String) request.getAttributes().get("statusMessage");
+
+		if (statusMessage == null) {
+			return new CommonResponse(body, "Request processed successfully");
+		}
+
+		return new CommonResponse(body, statusMessage);
 	}
 }

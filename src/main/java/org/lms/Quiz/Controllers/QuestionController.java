@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.QuestionsDTOs.QuestionSet;
 import org.lms.Quiz.Services.QuestionService;
-import org.lms.authentication.interceptors.HasRole;
+import org.lms.authentication.annotations.HasRole;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

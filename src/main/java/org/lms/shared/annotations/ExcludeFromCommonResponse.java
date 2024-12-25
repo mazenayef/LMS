@@ -1,4 +1,4 @@
-package org.lms.shared.interceptors;
+package org.lms.shared.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

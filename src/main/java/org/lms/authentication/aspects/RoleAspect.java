@@ -1,11 +1,11 @@
-package org.lms.authentication.interceptors;
+package org.lms.authentication.aspects;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Before;
+import org.lms.authentication.annotations.HasRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

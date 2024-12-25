@@ -1,4 +1,4 @@
-package org.lms.authentication.interceptors;
+package org.lms.authentication.annotations;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.lms.user.User;

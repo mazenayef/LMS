@@ -1,11 +1,12 @@
-package org.lms.authentication.interceptors;
+package org.lms.shared.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CurrentUser {
+public @interface ResponseStatusMessage {
+	String value() default "Request processed successfully";
 }
