@@ -26,6 +26,6 @@ public class QuizSet {
     public LocalDateTime startTime;
 
     public Quiz toObject(){
-        return new Quiz(courseId,weight,difficulties.length,difficulties,duration,startTime);
+        return new Quiz(courseId,weight,difficulties,duration,startTime);
     }
 }

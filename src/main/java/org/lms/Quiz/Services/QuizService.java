@@ -199,9 +199,11 @@ public class QuizService {
             if(quiz == null)
                 return new ResponseObject("could not find the quiz", null);
     
-            if(quizAttempt.getCreatedAt().plusMinutes(quiz.getDuration()).isAfter(LocalDateTime.now()))
+            if(quizAttempt.getCreatedAt().plusMinutes(quiz.getDuration()).isBefore(LocalDateTime.now())){
+                System.out.println(quizAttempt.getCreatedAt().plusMinutes(quiz.getDuration()));
                 return new ResponseObject("deadline is due", null);
-    
+            }
+
             if(quizAttempt.getSubmitted())
                 return new ResponseObject("already submitted", null);
     
