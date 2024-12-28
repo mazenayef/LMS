@@ -23,7 +23,7 @@ public class AnnouncementRepository {
     public Announcement create(AnnouncementDTO announcementDTO , Integer courseId) throws Exception {
         Course course = courseRepository.getCourseById(courseId);
 
-        Announcement announcement = new Announcement(id++, announcementDTO.getTitle(), announcementDTO.getDescription(),courseId ,null);
+        Announcement announcement = new Announcement(id++, announcementDTO.getTitle(), announcementDTO.getDescription(),courseId ,new ArrayList<>());
         announcements.add(announcement);
         List<Integer> announcementList = course.getAnnouncementList();
         announcementList.add(announcement.getId());

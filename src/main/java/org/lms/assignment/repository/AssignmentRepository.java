@@ -17,22 +17,9 @@ import org.springframework.stereotype.Repository;
 public class AssignmentRepository {
     static public List<Assignment> assignmentDB= new ArrayList<>();
     private CourseRepository courseRepository;
-    Assignment assignment1=new Assignment(
-        "Software",
-        "blah", 
-        "25/12",
-        1
-        );
-        Assignment assignment2=new Assignment(
-            "Software",
-            "blah", 
-            "25/12",
-            2
-            );
+
     public AssignmentRepository(CourseRepository courseRepository){
         this.courseRepository=courseRepository;
-        assignmentDB.add(assignment1);
-        assignmentDB.add(assignment2);
     }
     public Assignment findByID(Integer id) throws Exception{
         Assignment assignment = null;
@@ -63,6 +50,7 @@ public class AssignmentRepository {
         Course course=courseRepository.getCourseById(courseID);
         if(course!=null){
         Assignment assignment= new Assignment(title, description, date, courseID);
+        assignment.setMedia(new ArrayList<>());
         assignmentDB.add(assignment);
         }
     }

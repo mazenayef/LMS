@@ -49,11 +49,5 @@ public class QuestionRepository{
         }
     }
     
-    public static ArrayList<Question> questions = new ArrayList<Question>(Arrays.asList(
-        new Question(1,0, 1, "What is the capital of France?", new String[]{"Paris", "London", "Berlin", "Madrid"}, Difficulty.MEDIUM),
-        new Question(2,0, 1, "Which planet is closest to the Sun?", new String[]{"Mercury", "Venus", "Earth", "Mars"}, Difficulty.EASY),
-        new Question(3,0, 1, "What is the largest country in the world by land area?", new String[]{"Russia", "Canada", "China", "United States"}, Difficulty.MEDIUM),
-        new Question(4,0, 1, "Who painted the Mona Lisa?", new String[]{"Leonardo da Vinci", "Michelangelo", "Raphael", "Donatello"}, Difficulty.EASY),
-        new Question(5, 0, 1, "What is the chemical symbol for gold?", new String[]{"Au", "Ag", "Cu", "Fe"}, Difficulty.HARD)
-    ));
+    public static ArrayList<Question> questions = new ArrayList<Question>();
 }

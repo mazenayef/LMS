@@ -12,11 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class QuizAttemptRepository {
-    public static ArrayList<QuizAttempt> attempts = new ArrayList<QuizAttempt>(Arrays.asList(
-        new QuizAttempt(1, 1, -1, new ArrayList<Pair<Integer,Integer>>(Arrays.asList(new Pair<Integer,Integer>(1, 1),new Pair<Integer,Integer>(1, 1),new Pair<Integer,Integer>(1, 1))), LocalDateTime.now(), false),
-        new QuizAttempt(2, 1, 2, new ArrayList<Pair<Integer,Integer>>(Arrays.asList(new Pair<Integer,Integer>(1, 1),new Pair<Integer,Integer>(1, 1),new Pair<Integer,Integer>(1, 1))), LocalDateTime.now(), true),
-        new QuizAttempt(3, 1, 3, new ArrayList<Pair<Integer,Integer>>(Arrays.asList(new Pair<Integer,Integer>(1, 1),new Pair<Integer,Integer>(1, 1),new Pair<Integer,Integer>(1, 1))), LocalDateTime.now(), true)
-    ));;
+    public static ArrayList<QuizAttempt> attempts = new ArrayList<QuizAttempt>();
 
     public QuizAttempt create(QuizAttempt quizAttempt){
         attempts.add(quizAttempt);

@@ -44,9 +44,5 @@ public class QuizRepository {
         quizzes.remove(quiz);
     }
     
-    public static ArrayList<Quiz> quizzes = new ArrayList<Quiz>(Arrays.asList(
-        new Quiz(1,1,5,new Difficulty[]{Difficulty.EASY,Difficulty.MEDIUM,Difficulty.HARD},30,LocalDateTime.now()),
-        new Quiz(2,2,5,new Difficulty[]{Difficulty.HARD,Difficulty.MEDIUM,Difficulty.HARD},30,LocalDateTime.now()),
-        new Quiz(3,3,5,new Difficulty[]{Difficulty.EASY,Difficulty.EASY,Difficulty.HARD},30,LocalDateTime.now())
-    ));
+    public static ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
 }

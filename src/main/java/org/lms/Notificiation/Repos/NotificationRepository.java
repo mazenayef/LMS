@@ -11,12 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class NotificationRepository {
-    public static ArrayList<NotificationModel> notifications = new ArrayList<NotificationModel>(Arrays.asList(
-        new NotificationModel(1,1, "you are enrolled","ur enreoll request is accepted",LocalDateTime.now(), true),
-        new NotificationModel(2,1, "you are kicked","you got kicked",LocalDateTime.now(), true),
-        new NotificationModel(3,1, "course 1 update","course 1 updated his content",LocalDateTime.now(), false),
-        new NotificationModel(4,1, "you failed quiz 2","u got 2/5",LocalDateTime.now(), false)
-    ));
+    public static ArrayList<NotificationModel> notifications = new ArrayList<NotificationModel>();
 
     public NotificationModel create(NotificationModel notification){
         notifications.add(notification);

@@ -57,6 +57,7 @@ public class AssignmentSubmissionRepository {
         Assignment assignment=assignmentRepository.findByID(assignmentID);
         if(assignment!=null){
         AssignmentSubmission assignmentSubmission= new AssignmentSubmission(createdAT, student,assignmentID);
+        assignmentSubmission.setMedia(new ArrayList<>());
         assignmentSubmissionDB.add(assignmentSubmission);
         }
     }
