@@ -1,5 +1,6 @@
 package org.lms.assignment.controller;
 
+import org.lms.shared.interceptors.ExcludeFromCommonResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,6 +83,7 @@ public class AssignmentController {
         return ResponseEntity.ok(assignmentService.getAttachment(Integer.parseInt(id)));
     }
 
+    @ExcludeFromCommonResponse
     @HasRole({"INSTRUCTOR"})
     @PostMapping("{id}/attachments")
     public ResponseEntity<MediaFile> addAttachment(@PathVariable ("id")String id,@RequestParam ("file")MultipartFile file) throws Exception, Exception {

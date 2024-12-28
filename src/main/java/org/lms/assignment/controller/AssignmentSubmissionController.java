@@ -14,6 +14,7 @@ import org.lms.authentication.interceptors.CurrentUser;
 import org.lms.authentication.interceptors.HasRole;
 import org.lms.mediafiles.models.MediaFile;
 import org.lms.shared.exceptions.HttpBadRequestException;
+import org.lms.shared.interceptors.ExcludeFromCommonResponse;
 import org.lms.user.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +46,7 @@ public ResponseEntity<List<MediaFile>> getAttachments(@PathVariable ("submission
     return ResponseEntity.ok(assignmentSubmissionServices.getAttachments(Integer.parseInt(submissionID)));
 }
 
+@ExcludeFromCommonResponse
 @HasRole({"INSTRUCTOR"})
 @PostMapping("/{submissionID}/attachments")
 public ResponseEntity<MediaFile> addAttachment(@PathVariable ("submissionID")String submissionID,@RequestParam ("file")MultipartFile file) throws Exception {

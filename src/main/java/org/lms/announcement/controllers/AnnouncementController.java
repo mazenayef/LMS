@@ -7,6 +7,7 @@ import org.lms.announcement.services.AnnouncementService;
 import org.lms.authentication.interceptors.CurrentUser;
 import org.lms.authentication.interceptors.HasRole;
 import org.lms.mediafiles.models.MediaFile;
+import org.lms.shared.interceptors.ExcludeFromCommonResponse;
 import org.lms.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class AnnouncementController {
 
     }
 
+    @ExcludeFromCommonResponse
     @HasRole({"INSTRUCTOR"})
     @PostMapping("/{id}/attachments")
     public ResponseEntity<MediaFile> addAttachment(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) throws Exception {

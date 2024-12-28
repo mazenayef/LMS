@@ -2,6 +2,7 @@ package org.lms.mediafiles.controllers;
 
 import org.lms.mediafiles.dtos.MediaFileResourceDto;
 import org.lms.mediafiles.services.MediaFilesService;
+import org.lms.shared.interceptors.ExcludeFromCommonResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class MediaFilesController {
 		this.mediaFilesService = mediaFilesService;
 	}
 
+	@ExcludeFromCommonResponse
 	@GetMapping("/{id}")
 	public ResponseEntity<Resource> getMediFile(@PathVariable("id") String id) throws Exception {
 		MediaFileResourceDto mediaFileResourceDto = this.mediaFilesService.getMediaResource(Integer.parseInt(id));

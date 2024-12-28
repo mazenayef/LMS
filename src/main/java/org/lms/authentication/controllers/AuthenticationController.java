@@ -49,7 +49,7 @@ public class AuthenticationController {
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity<User> getProfile(@CurrentUser User currentUser, Model model) {
+	public ResponseEntity<User> getProfile(@CurrentUser User currentUser) {
 		return ResponseEntity.ok().body(currentUser);
 	}
 }
