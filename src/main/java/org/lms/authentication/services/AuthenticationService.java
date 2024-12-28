@@ -7,15 +7,19 @@ import org.lms.shared.exceptions.HttpNotFoundException;
 import org.lms.user.User;
 import org.lms.user.UserDTO;
 import org.lms.user.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
 	private UserService userService;
 	private JwtService jwtService;
+	private BCryptPasswordEncoder passwordEncoder;
+
 	public AuthenticationService(UserService userService, JwtService jwtService) {
 		this.userService = userService;
 		this.jwtService = jwtService;
+		this.passwordEncoder = new BCryptPasswordEncoder();
 	}
 
 	public TokenDto login(LoginDto loginDto) throws Exception {
@@ -25,7 +29,7 @@ public class AuthenticationService {
 			throw new HttpNotFoundException("User not found!");
 		}
 
-		if (!user.getPassword().equals(loginDto.getPassword())) {
+		if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
 			throw new HttpBadRequestException("Invalid Password");
 		}
 
@@ -34,6 +38,7 @@ public class AuthenticationService {
 	}
 
 	public TokenDto register(UserDTO userDto) throws Exception {
+		userDto.setPassword(hashPassword(userDto.getPassword()));
 		User user = this.userService.createUser(userDto);
 
 		String token = this.jwtService.generateToken(user.getId(), user.getRole());
@@ -42,5 +47,9 @@ public class AuthenticationService {
 
 	public User getUser(Integer id) throws Exception {
 		return this.userService.findUserById(id);
+	}
+
+	public String hashPassword(String password) {
+		return passwordEncoder.encode(password);
 	}
 }

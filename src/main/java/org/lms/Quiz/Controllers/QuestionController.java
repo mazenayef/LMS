@@ -35,11 +35,18 @@ public class QuestionController {
         return ResponseEntity.badRequest().body(result);
     }
 
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @GetMapping(value = "/", produces = "application/json")
     public ResponseEntity<ResponseObject> getAll(){
         return ResponseEntity.ok(_service.getAll());
     }
 
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<ResponseObject> getQuestionBody(@PathVariable Integer id){
+        return ResponseEntity.ok(_service.getQuestionBody(id));
+    }
+
+    @HasRole({"ADMIN", "INSTRUCTOR"})
     @GetMapping(value = "/filter", produces = "application/json")
     public ResponseEntity<ResponseObject> filter(@RequestBody Map<String, Object> criteria) throws InterruptedException, ExecutionException{
         ResponseObject result;

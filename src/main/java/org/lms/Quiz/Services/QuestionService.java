@@ -63,4 +63,8 @@ public class QuestionService {
         if(question != null)
             _questionRepo.delete(question);
     }
+
+    public ResponseObject getQuestionBody(Integer id) {
+        return new ResponseObject("Normalized", _questionRepo.getQuestionQuizzable(id));
+    }
 }

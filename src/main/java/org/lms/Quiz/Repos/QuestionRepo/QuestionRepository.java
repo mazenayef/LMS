@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.lms.Quiz.DTOs.QuestionsDTOs.QuestionGet;
 import org.lms.Quiz.DTOs.QuestionsDTOs.QuestionSet;
 import org.lms.Quiz.Models.Difficulty;
 import org.lms.Quiz.Models.Question;
@@ -47,6 +49,14 @@ public class QuestionRepository{
                 iterator.remove();
             }
         }
+    }
+
+    public QuestionGet getQuestionQuizzable(Integer id) {
+        Question question = questions.stream().filter(q -> q.getId() == id).findFirst().orElse(null);
+        if (question == null) {
+            return null;
+        }
+        return QuestionGet.fromQuestion(question);
     }
     
     public static ArrayList<Question> questions = new ArrayList<Question>();
