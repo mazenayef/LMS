@@ -39,7 +39,7 @@ public class NotificationController {
         return ResponseEntity.ok(_service.get(user.getId(), unRead));
     }
 
-    @HasRole("ADMIN")
+    @HasRole({"ADMIN"})
     @PutMapping(value = "/update/{id}", produces = "application/json")
     public ResponseEntity<ResponseObject> update(@PathVariable int id, @RequestBody NotificationSet notification){
         ResponseObject result = _service.update(id, notification);
@@ -58,7 +58,7 @@ public class NotificationController {
         return ResponseEntity.badRequest().body(result);
     }
 
-    @HasRole("ADMIN")
+    @HasRole({"ADMIN"})
     @DeleteMapping(value = "/delete/{id}")
     public void delete(@PathVariable int id){
         _service.delete(id);
