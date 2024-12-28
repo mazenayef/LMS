@@ -66,7 +66,7 @@ public class QuizController {
         _service.delete(id);
     }
 
-    @GetMapping(value = "/attempt/{userId}/{quizId}")
+    @GetMapping(value = "/attempt/{quizId}")
     public ResponseEntity<ResponseObject> attempt(@CurrentUser User user,@PathVariable int quizId) throws InterruptedException, ExecutionException, Exception{
         ResponseObject result = _service.getModelOfQuiz(user.getId(), quizId).get();
         if(result.data != null)

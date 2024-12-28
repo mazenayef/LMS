@@ -67,7 +67,7 @@ public class AssignmentSubmissionServices  {
             assignmentSubmissionRepository.updateAssignmentSubmission(oldAssignmentSubmission, updatedAssignmentSubmission);
             updatedAssignmentSubmission.setId(id);
             notificationService.notifiy(
-                new EmailObject(oldAssignmentSubmission.getStudent().getEmail(),"marks of assignment" ,"you got  "+updatedAssignmentSubmission.getGrade())
+                new EmailObject(oldAssignmentSubmission.getStudent().getEmail(),"marks of assignment" ,"you got  "+updatedAssignmentSubmission.getGrade(), oldAssignmentSubmission.getStudent().getId())
             );
             return updatedAssignmentSubmission;
         }

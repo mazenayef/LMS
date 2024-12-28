@@ -30,7 +30,8 @@ public class AnnouncementController {
     @PostMapping("/")
     // only instructor can add announcement
     public ResponseEntity<Announcement> addAnnouncement(@RequestBody AnnouncementDTO announcementDTO , @PathVariable("courseId") String courseId , @CurrentUser User user) throws Exception {
-        return ResponseEntity.status(HttpStatus.CREATED).body(announcementService.addAnnouncement(announcementDTO , courseId));
+        Announcement announcement = announcementService.addAnnouncement(announcementDTO , courseId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(announcement);
 
     }
 

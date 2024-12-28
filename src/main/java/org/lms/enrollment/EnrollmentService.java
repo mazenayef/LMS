@@ -29,17 +29,18 @@ public class EnrollmentService {
 
     public String joinStudentCourse (Integer courseId, Integer studentId) throws Exception {
         List<Integer> instructorList = courseService.getInstructorList(courseId);
-        List<String> instructorEmailList = new ArrayList<>();
+        List<User> instructorsList = new ArrayList<>();
         String result = courseService.joinStudentCourse(courseId, studentId);
         for (Integer instructorId : instructorList) {
-            String instructorEmail = userService.getEmailById(instructorId);
-            instructorEmailList.add(instructorEmail);
+            User instructor = userService.findUserById(instructorId);
+            instructorsList.add(instructor);
         }
-        for (String instructorEmail : instructorEmailList) {
+        for (User instructor : instructorsList) {
             notificationService.notifiy(new EmailObject(
-                    instructorEmail,
+                    instructor.getEmail(),
                     "Student joined course",
-                    "A student has joined the course"
+                    "A student has joined the course",
+                    instructor.getId()
             ));
         }
         return result;

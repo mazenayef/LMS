@@ -7,6 +7,7 @@ import org.lms.authentication.dtos.TokenDto;
 import org.lms.authentication.interceptors.CurrentUser;
 import org.lms.authentication.interceptors.HasRole;
 import org.lms.authentication.services.AuthenticationService;
+import org.lms.user.GetUserDto;
 import org.lms.user.User;
 import org.lms.user.UserDTO;
 import org.springframework.http.*;
@@ -49,7 +50,7 @@ public class AuthenticationController {
 	}
 
 	@GetMapping("/profile")
-	public ResponseEntity<User> getProfile(@CurrentUser User currentUser) {
-		return ResponseEntity.ok().body(currentUser);
+	public ResponseEntity<GetUserDto> getProfile(@CurrentUser User currentUser) {
+		return ResponseEntity.ok().body(GetUserDto.fromUser(currentUser));
 	}
 }

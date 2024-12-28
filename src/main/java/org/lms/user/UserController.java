@@ -1,5 +1,6 @@
 package org.lms.user;
 
+import org.apache.commons.collections4.Get;
 import org.lms.Models.ResponseObject;
 import org.lms.authentication.interceptors.CurrentUser;
 import org.lms.authentication.interceptors.HasRole;
@@ -32,14 +33,14 @@ public class UserController {
 
     @PostMapping("/")
     @HasRole({"ADMIN"})
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
-        return ResponseEntity.ok().body(userService.createUser(user));
+    public ResponseEntity<GetUserDto> createUser(@RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
+        return ResponseEntity.ok().body(GetUserDto.fromUser(userService.createUser(user)));
     };
 
     @PatchMapping("/{id}")
     @HasRole({"ADMIN"})
-    public ResponseEntity<User> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
-        return ResponseEntity.ok().body(userService.updateUserById(id, user));
+    public ResponseEntity<GetUserDto> updateUserById(@PathVariable("id") Integer id, @RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
+        return ResponseEntity.ok().body(GetUserDto.fromUser(userService.updateUserById(id, user)));
     };
 
     @DeleteMapping("/{id}")
@@ -51,14 +52,19 @@ public class UserController {
 
     @GetMapping("/{id}")
     @HasRole({"ADMIN", "INSTRUCTOR"})
-    public ResponseEntity<User> findUserById(@PathVariable("id") String id, @CurrentUser User currentUser) throws Exception{
+    public ResponseEntity<GetUserDto> findUserById(@PathVariable("id") String id, @CurrentUser User currentUser) throws Exception{
         Integer idUsed = Integer.parseInt(id);
-        return ResponseEntity.ok().body(userService.findUserById(idUsed));
+        return ResponseEntity.ok().body(GetUserDto.fromUser(userService.findUserById(idUsed)));
     };
 
     @GetMapping("/")
     @HasRole({"ADMIN"})
-    public ResponseEntity<List<User>> findAllUsers(@CurrentUser User currentUser) {
-        return ResponseEntity.ok().body(userService.findAll());
+    public ResponseEntity<List<GetUserDto>> findAllUsers(@CurrentUser User currentUser) {
+        return ResponseEntity.ok().body(GetUserDto.fromUsers(userService.findAll()));
     }
+
+    @PatchMapping("/profile")
+    public ResponseEntity<GetUserDto> updateProfile(@RequestBody UserDTO user, @CurrentUser User currentUser) throws Exception{
+        return ResponseEntity.ok().body(GetUserDto.fromUser(userService.updateUserById(currentUser.getId(), user)));
+    };
 }

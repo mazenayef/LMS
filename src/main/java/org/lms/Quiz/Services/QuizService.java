@@ -125,6 +125,7 @@ public class QuizService {
             List<Question> allQuestions = QuestionRepository.questions.stream()
                                                     .filter(q -> q.getCourseId() == quiz.getCourseId())
                                                     .collect(Collectors.toList());
+
             for (Question q : allQuestions) {
                 if(q.getDifficulty() == Difficulty.EASY)
                     easyQuestions.add(q);
@@ -135,9 +136,16 @@ public class QuizService {
             }
             ArrayList<Difficulty> proposedQuestions = new ArrayList<>(Arrays.asList(quiz.getDifficulty()));
             long countEasyQuestions = proposedQuestions.stream().filter(x -> x == Difficulty.EASY).count();
+            System.out.println(countEasyQuestions);
             long countMediumQuestions = proposedQuestions.stream().filter(x -> x == Difficulty.MEDIUM).count();
+            System.out.println(countMediumQuestions);
             long countHardQuestions = proposedQuestions.stream().filter(x -> x == Difficulty.HARD).count();
+            System.out.println(countHardQuestions);
             List<Pair<Integer,Integer>> questions = new ArrayList<>();
+
+            System.out.println(easyQuestions.size());
+            System.out.println(mediumQuestions.size());
+            System.out.println(hardQuestions.size());
 
             if(easyQuestions.size() < countEasyQuestions || mediumQuestions.size() < countMediumQuestions || hardQuestions.size() < countHardQuestions )
                 return new ResponseObject("not enough questions to create quiz",null);

@@ -39,6 +39,13 @@ public class EmailObject {
         // });
     }
 
+    public EmailObject(String to, String header, String message, Integer userId){
+        this.to = to;
+        this.message = message;
+        this.header = header;
+        this.userId = userId;
+    }
+
     public int getUserId() {
         return userId;
     }
