@@ -12,6 +12,7 @@ import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import org.lms.Models.ResponseObject;
 import org.lms.Quiz.DTOs.Pair;
+import org.lms.Quiz.DTOs.QuizDTOs.QuizAttemptSet;
 import org.lms.Quiz.DTOs.QuizDTOs.QuizPerformance;
 import org.lms.Quiz.DTOs.QuizDTOs.QuizSet;
 import org.lms.Quiz.Models.Difficulty;
@@ -28,10 +29,12 @@ public class QuizService {
 
     private final QuizRepository _repo;
     private final QuizAttemptRepository _attemptsRepo;
-    
-    public QuizService(QuizRepository repo, QuizAttemptRepository attemptsRepo){
+    private final QuizAttemptRepository quizAttemptRepository;
+
+    public QuizService(QuizRepository repo, QuizAttemptRepository attemptsRepo, QuizAttemptRepository quizAttemptRepository){
         _repo = repo;
         _attemptsRepo = attemptsRepo;
+        this.quizAttemptRepository = quizAttemptRepository;
     }
 
     public ResponseObject create(QuizSet quizSet){
@@ -184,14 +187,28 @@ public class QuizService {
         return future;
     }
 
-    public Future<ResponseObject> submitQuizAttempt(QuizAttempt quizAttempt){
+    public Future<ResponseObject> submitQuizAttempt(QuizAttemptSet quizAttemptSet){
 
         CompletableFuture<ResponseObject> future = CompletableFuture.supplyAsync(() -> {
+            QuizAttempt quizAttempt = QuizAttemptRepository.attempts.stream().filter(q -> q.getId() == quizAttemptSet.attemptId).findFirst().orElse(null);
             Quiz quiz = _repo.getAll()
             .stream()
             .filter(q -> q.getId() == quizAttempt.getQuizId())
             .findFirst()
             .orElse(null);
+
+            if(quizAttempt == null)
+                return new ResponseObject("could not find the attempt", null);
+
+            if (quizAttemptSet.answers.size() != quizAttempt.getAnswers().size())
+                return new ResponseObject("questions count is not equal to the questions count", null);
+
+            for (int i = 0; i < quizAttemptSet.answers.size(); i++) {
+                if (quizAttemptSet.answers.get(i).first != quizAttempt.getAnswers().get(i).first)
+                    return new ResponseObject("questions are not in the same order", null);
+            }
+
+            quizAttempt.setAnswers(quizAttemptSet.answers);
     
             if(QuizAttemptRepository.attempts.stream().filter(x -> x.getQuizId() == quizAttempt.getQuizId() && x.getStudentId() == quizAttempt.getStudentId() && x.getSubmitted()).count() > 0)
                 return new ResponseObject("already submited", null);

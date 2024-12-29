@@ -3,6 +3,7 @@ package org.lms.Quiz.Controllers;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.lms.Models.ResponseObject;
+import org.lms.Quiz.DTOs.QuizDTOs.QuizAttemptSet;
 import org.lms.Quiz.DTOs.QuizDTOs.QuizSet;
 import org.lms.Quiz.Models.QuizAttempt;
 import org.lms.Quiz.Services.QuizService;
@@ -89,7 +90,7 @@ public class QuizController {
     }
 
     @PutMapping(value = "/submit", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseObject> submit(@RequestBody QuizAttempt attempt) throws InterruptedException, ExecutionException{
+    public ResponseEntity<ResponseObject> submit(@RequestBody QuizAttemptSet attempt) throws InterruptedException, ExecutionException{
         ResponseObject result = _service.submitQuizAttempt(attempt).get();
         if(result.data != null)
             return ResponseEntity.ok(result);
